@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,15 +7,18 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
   title: "Alome | Premium Branding",
   description: "Elevating your brand identity with modern design.",
 };
+
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -25,10 +28,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable} h-full antialiased`}
+      className={`${inter.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sora">
+      <body className="min-h-full flex flex-col font-sans">
         {children}
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );
