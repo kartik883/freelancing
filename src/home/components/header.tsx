@@ -3,17 +3,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, X, LogOut, Settings, Package, UserCircle } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { useAuthStore } from "@/lib/store";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { useAuthStore, useCartStore } from "@/lib/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const { setIsOpen, setMode } = useAuthStore();
+  const { items: cartItems } = useCartStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,91 +49,151 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
-        ? "bg-background/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm hover:bg-green-900"
-        : "bg-black/10 backdrop-blur-[2px] py-8 hover:bg-green-900"
+        ? "bg-background/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm"
+        : "bg-black/10 backdrop-blur-[2px] py-6 md:py-8"
         }`}
     >
       <div className="container mx-auto px-6 md:px-12">
         <div className="flex items-center justify-between relative">
+          {/* Left: Mobile Menu Trigger & Logo */}
+          <div className="flex items-center gap-4">
+            <button
+              className={`md:hidden p-2 -ml-2 transition-colors ${isScrolled ? "text-foreground hover:bg-primary/5" : "text-white hover:bg-white/10"
+                }`}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
 
-          {/* Mobile Menu Icon */}
-          <button
-            className={`md:hidden ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-105">
+              <div
+                className={`relative w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-full border border-primary/20 ${isScrolled ? "bg-primary/10" : "bg-white/20 shadow-lg"
+                  }`}
+              >
+                <img src={`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/skin_care_fyko63.png`} alt="Alome Logo" className="w-full h-full object-cover" />
+              </div>
+              <span
+                className={`text-xl md:text-3xl font-serif tracking-widest transition-all duration-500 ${isScrolled ? "text-primary" : "text-white drop-shadow-md"
+                  }`}
+              >
+                ALOMA
+              </span>
+            </Link>
+          </div>
 
-          {/* Logo - Centered for Luxury Brand Feel */}
-          <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-105">
-            <div className={`relative w-10 h-10 overflow-hidden rounded-full border border-primary/20 ${isScrolled ? "bg-primary/10" : "bg-white/20 shadow-lg"}`}>
-              <img
-                src="/download.jfif"
-                alt="Alome Logo"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <span className={`text-2xl md:text-3xl font-serif tracking-widest transition-all duration-500 ${isScrolled ? "text-primary" : "text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]"}`}>
-              ALOMA
-            </span>
-          </Link>
-
-          {/* Navigation Links - Center on desktop */}
+          {/* Center: Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`group relative text-xs uppercase tracking-[0.2em] font-medium transition-colors ${isScrolled ? "text-foreground/70" : "text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"} hover:text-primary`}
+                className={`group relative text-[10px] md:text-xs uppercase tracking-[0.2em] font-medium transition-colors ${isScrolled ? "text-foreground/70" : "text-white drop-shadow-sm"
+                  } hover:text-primary`}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full font-bold" />
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* Actions: Search, Cart, User Auth */}
-          <div className="flex items-center gap-3 md:gap-6">
-            <div className={`hidden sm:flex items-center gap-4 ${isScrolled ? "text-foreground/80" : "text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"}`}>
+          {/* Right: Action Icons */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Search and Cart - Always visible on sm/md as requested */}
+            <div
+              className={`flex items-center gap-1 md:gap-4 ${isScrolled ? "text-foreground/80" : "text-white drop-shadow-sm"
+                }`}
+            >
               <button className="hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/5">
                 <Search size={20} strokeWidth={1.5} />
               </button>
-              <button className="hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/5 relative">
+              <Link href="/cart" className="hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/5 relative">
                 <ShoppingBag size={20} strokeWidth={1.5} />
-                <span className="absolute top-1 right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[8px] font-bold text-primary-foreground shadow-lg">
-                  0
-                </span>
-              </button>
+                {cartItems.length > 0 && (
+                  <span className="absolute top-1.5 right-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-primary text-[7px] font-bold text-primary-foreground shadow-sm">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
             </div>
 
-            {/* Better-Auth Logic: User Avatar vs Login Button */}
-            <div className="flex items-center gap-3">
+            {/* Profile Dropdown */}
+            <div className="flex items-center">
               {isPending ? (
                 <div className="w-8 h-8 rounded-full bg-primary/10 animate-pulse" />
               ) : session ? (
-                <div className="flex items-center gap-2">
-                  {/* User Avatar */}
-                  <button className="relative w-9 h-9 overflow-hidden rounded-full border-2 border-primary/20 shadow-sm transition-transform hover:scale-105">
-                    {session.user.image ? (
-                      <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold shadow-md">
-                        {session.user.name.charAt(0)}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="relative w-8 h-8 md:w-9 md:h-9 overflow-hidden rounded-full border border-primary/20 shadow-sm transition-transform hover:scale-105 outline-none">
+                      {session.user.image ? (
+                        <img
+                          src={session.user.image}
+                          alt={session.user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
+                          {session.user.name.charAt(0)}
+                        </div>
+                      )}
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-64 p-2 bg-background/95 backdrop-blur-xl border border-primary/10 shadow-2xl rounded-2xl animate-in fade-in zoom-in-95 duration-200"
+                  >
+                    <DropdownMenuLabel className="p-4 flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden border border-primary/10 bg-primary/5">
+                        {session.user.image ? (
+                          <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-lg font-serif text-primary">
+                            {session.user.name.charAt(0)}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </button>
-                  <button onClick={handleLogout} className={`p-2 rounded-full hover:bg-destructive/10 text-destructive transition-colors`} title="Logout">
-                    <LogOut size={18} />
-                  </button>
-                </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-foreground tracking-tight">{session.user.name}</span>
+                        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Premium Member</span>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-primary/5 mx-2" />
+                    <div className="p-1">
+                      <DropdownMenuItem className="flex items-center gap-3 p-3 text-xs uppercase tracking-widest font-medium rounded-xl focus:bg-primary/5 cursor-pointer">
+                        <UserCircle size={16} className="text-primary/60" />
+                        <Link href="/profile">
+                          Edit Profile
+                        </Link>
+
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-3 p-3 text-xs uppercase tracking-widest font-medium rounded-xl focus:bg-primary/5 cursor-pointer">
+                        <Package size={16} className="text-primary/60" />
+                        My Orders
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-3 p-3 text-xs uppercase tracking-widest font-medium rounded-xl focus:bg-primary/5 cursor-pointer">
+                        <Settings size={16} className="text-primary/60" />
+                        Account Settings
+                      </DropdownMenuItem>
+                    </div>
+                    <DropdownMenuSeparator className="bg-primary/5 mx-2" />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="flex items-center gap-3 p-3 text-xs uppercase tracking-widest font-bold text-destructive rounded-xl focus:bg-destructive/5 cursor-pointer"
+                    >
+                      <LogOut size={16} />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                <Button
-                  variant="ghost"
+                <button
                   onClick={() => openAuth("signin")}
-                  className={`text-xs uppercase tracking-widest font-semibold px-6 py-2 rounded-full ${isScrolled ? "text-primary hover:bg-primary/10" : "text-white border border-white/30 hover:bg-white/10 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"} transition-all`}
+                  className={`p-2 rounded-full transition-all ${isScrolled
+                    ? "text-foreground/80 hover:bg-primary/5"
+                    : "text-white hover:bg-white/10 drop-shadow-sm"
+                    }`}
                 >
-                  Login
-                </Button>
+                  <User size={22} strokeWidth={1.5} />
+                </button>
               )}
             </div>
           </div>
@@ -136,34 +203,41 @@ const Header = () => {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden absolute top-full left-0 w-full bg-background border-t border-primary/10 overflow-hidden shadow-2xl backdrop-blur-2xl"
-          >
-            <nav className="flex flex-col gap-6 py-10 px-8 text-center uppercase tracking-[0.3em] text-sm font-semibold">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-foreground/80 hover:text-primary transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="h-[1px] w-12 bg-primary/20 mx-auto" />
-              <div className="flex justify-center gap-10 text-foreground/70 py-4">
-                <button><Search size={22} /></button>
-                <button className="relative">
-                  <ShoppingBag size={22} />
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">0</span>
-                </button>
-                {!session && <button onClick={() => openAuth("signin")}><User size={22} /></button>}
-              </div>
-            </nav>
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[-1]"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -20, height: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-2xl border-t border-primary/10 overflow-hidden shadow-2xl rounded-b-3xl"
+            >
+              <nav className="flex flex-col gap-1 py-8 px-6 text-center uppercase tracking-[0.3em] text-xs font-semibold">
+                {navLinks.map((link, idx) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block p-4 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

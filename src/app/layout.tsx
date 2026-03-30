@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
+import { TRPCReactProvider } from "@/trpc/client";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <TRPCReactProvider>
     <html
       lang="en"
       className={`${inter.variable} ${instrumentSerif.variable} h-full antialiased`}
@@ -35,5 +37,6 @@ export default function RootLayout({
         <Toaster richColors position="top-center" />
       </body>
     </html>
+    </TRPCReactProvider>
   );
 }

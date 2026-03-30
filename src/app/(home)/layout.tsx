@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/home/components/footer";
 import Header from "@/home/components/header";
 import React from "react";
 
@@ -14,6 +15,7 @@ const Layout = ({ children }: Props) => {
        
       {children}
     </div>
+    <Footer/>
     </>
   );
 };
