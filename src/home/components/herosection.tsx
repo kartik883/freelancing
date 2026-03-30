@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const slides = [
   {
@@ -168,9 +169,9 @@ const HeroSlider = () => {
                     <ArrowRight className="absolute right-4 translate-x-12 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                     <div className="absolute inset-0 -translate-x-full bg-black/10 transition-transform group-hover:translate-x-0" />
                   </button>
-                  <button className="group flex items-center gap-2 px-8 py-4 border border-white/30 text-white backdrop-blur-sm transition-all hover:bg-white hover:text-black">
+                  <Link href="/about" className="group flex items-center gap-2 px-8 py-4 border border-white/30 text-white backdrop-blur-sm transition-all hover:bg-white hover:text-black">
                     <span className="font-semibold uppercase tracking-widest text-xs">Discover Story</span>
-                  </button>
+                  </Link>
                 </motion.div>
               </div>
             </div>

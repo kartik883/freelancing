@@ -1,5 +1,5 @@
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
-
+import { nanoid } from 'nanoid'
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -75,24 +75,38 @@ export const verification = pgTable(
 
 // todo for other table 
 export const product = pgTable("product", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   name: text("name").notNull(),
   description: text("description"),
   price: text("price").notNull(), // or numeric if needed
   image: text("image"),
   stock: text("stock").notNull(),
   categoryId: text("category_id"),
+  howToUse: text("how_to_use"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const productImages = pgTable("product_images", {
+  id: text("id").primaryKey().$default(nanoid),
+  productId: text("product_id").notNull(),
+  url: text("url").notNull(),
+});
+
+export const curePductImages = pgTable("product_cure_images", {
+  id: text("id").primaryKey().$default(nanoid),
+  productId: text("product_id").notNull(),
+  url: text("url").notNull(),
+});
+
+
 export const category = pgTable("category", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   name: text("name").notNull(),
   slug: text("slug").unique().notNull(),
 });
 
 export const cart = pgTable("cart", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -100,7 +114,7 @@ export const cart = pgTable("cart", {
 });
 
 export const cartItem = pgTable("cart_item", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   cartId: text("cart_id")
     .notNull()
     .references(() => cart.id, { onDelete: "cascade" }),
@@ -111,17 +125,23 @@ export const cartItem = pgTable("cart_item", {
 });
 
 export const order = pgTable("order", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   userId: text("user_id")
     .notNull()
     .references(() => user.id),
   totalAmount: text("total_amount").notNull(),
-  status: text("status").default("pending"), // pending, paid, shipped
+  status: text("status").default("pending"), // pending, paid, shipped, delivered, cancelled
+  paymentMethod: text("payment_method").notNull().default("prepaid"), // prepaid, cod
+  razorpayOrderId: text("razorpay_order_id"),
+  razorpayPaymentId: text("razorpay_payment_id"),
+  addressId: text("address_id")
+    .notNull()
+    .references(() => address.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const orderItem = pgTable("order_item", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   orderId: text("order_id")
     .notNull()
     .references(() => order.id, { onDelete: "cascade" }),
@@ -133,7 +153,7 @@ export const orderItem = pgTable("order_item", {
 });
 
 export const address = pgTable("address", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -145,8 +165,21 @@ export const address = pgTable("address", {
   addressLine: text("address_line").notNull(),
 });
 
+export const shipment = pgTable("shipment", {
+  id: text("id").primaryKey().$default(nanoid),
+  orderId: text("order_id")
+    .notNull()
+    .references(() => order.id, { onDelete: "cascade" }),
+  shiprocketOrderId: text("shiprocket_order_id").notNull(),
+  shiprocketShipmentId: text("shiprocket_shipment_id"),
+  trackingId: text("tracking_id"),
+  courier: text("courier"),
+  status: text("status").default("processing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const payment = pgTable("payment", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   orderId: text("order_id")
     .notNull()
     .references(() => order.id),
@@ -155,7 +188,7 @@ export const payment = pgTable("payment", {
   paymentId: text("payment_id"),
 });
 export const review = pgTable("review", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$default(nanoid),
   userId: text("user_id")
     .notNull()
     .references(() => user.id),
