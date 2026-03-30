@@ -1,4 +1,3 @@
-"use client";
 import AuthDialog from "../components/authdialog";
 import HeroSlider from "../components/herosection";
 import { ProductCollection } from "../components/productcollection";
