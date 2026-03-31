@@ -1,12 +1,15 @@
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ProfileView } from "@/profile/views/profileview";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
-export default async function ProfilePage() {
+export default async function  ProfilePage() {
     const queryClient = getQueryClient();
-    void queryClient.prefetchQuery(trpc.profile.getMe.queryOptions());
+    
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>

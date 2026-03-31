@@ -71,9 +71,6 @@ export default function AuthDialog() {
             toast.error("You must agree to the terms");
             return;
         }
-        console.log("from submit button:", mode);
-
-
         setLoading(true);
 
         try {
@@ -118,8 +115,6 @@ export default function AuthDialog() {
             setLoading(false);
         }
     };
-
-    console.log("MODE:", mode);
 
 
     return (
