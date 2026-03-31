@@ -11,6 +11,7 @@ export default async function Home() {
   await Promise.all([
     queryclient.prefetchQuery(trpc.collection.getmany.queryOptions()),
     queryclient.prefetchQuery(trpc.home.getProductsWithImages.queryOptions()),
+    queryclient.prefetchQuery(trpc.home.getVideoUploads.queryOptions()),
   ]);
 
   return (

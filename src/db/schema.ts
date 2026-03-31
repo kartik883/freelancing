@@ -198,3 +198,11 @@ export const review = pgTable("review", {
   rating: text("rating").notNull(),
   comment: text("comment"),
 });
+
+export const videoUpload = pgTable("video_upload", {
+  id: text("id").primaryKey().$default(nanoid),
+  url: text("url").notNull(),
+  thumbnail: text("thumbnail"),
+  title: text("title"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
