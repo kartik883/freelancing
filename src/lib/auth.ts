@@ -11,7 +11,9 @@ export const auth = betterAuth({
     },
     trustedOrigins: [
         getBaseUrl(),
-    ],
+        process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+        "http://localhost:3000",
+    ].filter(Boolean),
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
