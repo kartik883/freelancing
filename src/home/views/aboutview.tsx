@@ -23,7 +23,7 @@ const AboutView = () => {
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
     return (
-        <div ref={containerRef} className="bg-[#fdfcf9] text-[#1a1a1a] font-sans overflow-x-hidden pt-20">
+        <div ref={containerRef} className="bg-background text-foreground font-sans overflow-x-hidden pt-20">
 
             {/* Premium Hero with Background Video */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -54,7 +54,7 @@ const AboutView = () => {
 
                         {/* Soft Overlays for Depth */}
                         <div className="absolute inset-0 bg-black/40" />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#fdfcf9]" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-background" />
                     </motion.div>
                 </div>
 
@@ -93,7 +93,7 @@ const AboutView = () => {
             </section>
 
             {/* Alternating Sections - Our Philosophy */}
-            <section className="py-32 md:py-48 bg-[#fdfcf9]">
+            <section className="py-32 md:py-48 bg-background">
                 <div className="container px-6 mx-auto">
                     {/* Section 1: Left Image, Right Content */}
                     <div className="grid md:grid-cols-2 gap-24 items-center mb-48">
@@ -184,14 +184,14 @@ const AboutView = () => {
             </section>
 
             {/* Philosophy Section - Dark Themed Premium */}
-            <section className="bg-[#0e0e0e] text-white py-32 md:py-48 overflow-hidden">
+            <section className="bg-secondary text-foreground py-32 md:py-48 overflow-hidden">
                 <div className="container px-6 mx-auto">
                     <motion.div
                         {...sectionFadeIn}
                         className="text-center mb-32"
                     >
-                        <div className="inline-block py-2 px-6 rounded-full border border-white/10 mb-6 font-bold tracking-[0.3em] text-[10px] uppercase text-primary">Uncompromising</div>
-                        <h2 className="text-6xl md:text-8xl font-serif font-extralight tracking-tighter">The Alome <span className="italic font-light">Standards</span></h2>
+                        <div className="inline-block py-2 px-6 rounded-full border border-primary/10 mb-6 font-bold tracking-[0.3em] text-[10px] uppercase text-primary">Uncompromising</div>
+                        <h2 className="text-6xl md:text-8xl font-serif font-extralight tracking-tighter">The Alome <span className="italic font-light text-primary">Standards</span></h2>
                     </motion.div>
 
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -207,13 +207,13 @@ const AboutView = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1, duration: 0.8 }}
-                                className="group p-10 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all duration-500"
+                                className="group p-10 bg-background/50 backdrop-blur-sm rounded-3xl border border-primary/10 hover:bg-background hover:border-primary/30 transition-all duration-500"
                             >
                                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform duration-500">
                                     <item.icon size={28} />
                                 </div>
                                 <h3 className="text-2xl font-serif mb-4">{item.title}</h3>
-                                <p className="text-white/40 leading-relaxed font-light text-base">{item.desc}</p>
+                                <p className="text-foreground/60 leading-relaxed font-light text-base">{item.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -221,7 +221,7 @@ const AboutView = () => {
             </section>
 
             {/* Impact & Reviews Section */}
-            <section className="py-32 md:py-48 bg-[#fdfcf9] relative">
+            <section className="py-32 md:py-48 bg-background relative">
                 <div className="container px-6 mx-auto">
                     <div className="grid lg:grid-cols-2 gap-24">
                         {/* Left: Stats */}
@@ -234,7 +234,7 @@ const AboutView = () => {
                                     { label: "Natural Ingredients", value: "100%" },
                                     { label: "Positive Reviews", value: "15k+" },
                                 ].map((stat, i) => (
-                                    <div key={i} className="p-8 bg-white shadow-sm border border-primary/5 rounded-2xl">
+                                <div key={i} className="p-8 bg-background shadow-sm border border-primary/5 rounded-2xl">
                                         <div className="text-3xl font-serif text-primary mb-2">{stat.value}</div>
                                         <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">{stat.label}</div>
                                     </div>
