@@ -6,8 +6,16 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  phoneNumber: text("phone_number"),
+  phoneNumberVerified: boolean("phone_number_verified").default(false),
+  onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
+  address: text("address"),
+  age: text("age"),
+  emailVerificationCode: text("email_verification_code"),
+  emailVerificationExpiresAt: timestamp("email_verification_expires_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp(
+
     "updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
@@ -204,5 +212,7 @@ export const videoUpload = pgTable("video_upload", {
   url: text("url").notNull(),
   thumbnail: text("thumbnail"),
   title: text("title"),
+  description: text("description"),
+  creatorName: text("creator_name"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

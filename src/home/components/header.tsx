@@ -27,7 +27,7 @@ const Header = () => {
   const [mounted, setMounted] = useState(false);
 
   const { data: session, isPending } = authClient.useSession();
-  const { setIsOpen, setMode } = useAuthStore();
+  const { setIsOpen } = useAuthStore();
   const { items: cartItems } = useCartStore();
 
   useEffect(() => {
@@ -66,8 +66,7 @@ const Header = () => {
     await authClient.signOut();
   };
 
-  const openAuth = (mode: "signin" | "signup") => {
-    setMode(mode);
+  const openAuth = () => {
     setIsOpen(true);
     setIsMobileMenuOpen(false);
   };
@@ -87,7 +86,7 @@ const Header = () => {
           {/* Left: Mobile Menu Trigger & Logo */}
           <div className="flex items-center gap-4">
             <button
-              className={`md:hidden p-2 -ml-2 transition-colors ${isScrolled ? "text-foreground hover:bg-primary/5" : "text-foreground hover:bg-black/5"
+              className={`md:hidden p-2 -ml-2 transition-colors ${isScrolled ? "text-foreground hover:bg-primary/5" : "text-foreground hover:bg-secondary/30"
                 }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -105,7 +104,7 @@ const Header = () => {
                 className={`text-xl md:text-3xl font-serif tracking-widest transition-all duration-500 ${isScrolled ? "text-primary" : "text-foreground drop-shadow-sm"
                   }`}
               >
-                ALOMA
+                Purastone
               </span>
             </Link>
           </div>
@@ -232,10 +231,10 @@ const Header = () => {
                 </DropdownMenu>
               ) : (
                 <button
-                  onClick={() => openAuth("signin")}
+                  onClick={openAuth}
                   className={`p-2 rounded-full transition-all ${isScrolled
                     ? "text-foreground/80 hover:bg-primary/5"
-                    : "text-foreground hover:bg-black/5"
+                    : "text-foreground hover:bg-secondary/30"
                     } outline-none cursor-pointer`}
                 >
                   <User size={22} strokeWidth={1.5} />
@@ -255,7 +254,7 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="md:hidden fixed inset-0 bg-black/10 backdrop-blur-sm z-[-1]"
+              className="md:hidden fixed inset-0 bg-foreground/10 backdrop-blur-sm z-[-1]"
             />
             <motion.div
               initial={{ opacity: 0, y: -20, height: 0 }}

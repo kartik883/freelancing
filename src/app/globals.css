@@ -5,16 +5,21 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Fonts */
+  --font-sans: var(--font-outfit);
+  --font-heading: var(--font-klomisk);
+  --font-serif: var(--font-klomisk);
+  --font-mono: var(--font-geist-mono);
+
+  /* Semantic tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-instrument-serif);
-  --font-serif: var(--font-instrument-serif);
 
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -22,63 +27,103 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-  --radius: 0.75rem;
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius: 1rem;
 }
 
-/* ========================= */
-/* 🌿 LIGHT MODE (LUXURY) */
-/* ========================= */
+/* =========================================================
+   LIGHT MODE — Purastone Cream + Soft Brown
+========================================================= */
 
 :root {
-  --background: oklch(0.97 0.005 260); /* cool soft white */
-  --foreground: oklch(0.22 0.01 260);
+  /* Main colors from PDF */
+  --background: #f5e9dd;
+  --foreground: #3f3128;
 
-  --card: oklch(0.99 0.002 260);
-  --card-foreground: oklch(0.22 0.01 260);
+  --card: #fbf6f1;
+  --card-foreground: #3f3128;
 
-  --primary: oklch(0.60 0.02 260); /* cool grey-blue */
-  --primary-foreground: oklch(0.98 0.002 260);
+  --popover: #fffaf6;
+  --popover-foreground: #3f3128;
 
-  --secondary: oklch(0.94 0.005 260);
-  --secondary-foreground: oklch(0.40 0.01 260);
+  /* Burnt Clay from PDF page 10 */
+  --primary: #a05a3a;
+  --primary-foreground: #fffaf7;
 
-  --accent: oklch(0.90 0.02 250);
-  --accent-foreground: oklch(0.30 0.01 250);
+  /* Softer supporting browns */
+  --secondary: #efe2d5;
+  --secondary-foreground: #6d5a4c;
 
-  --muted: oklch(0.95 0.005 260);
-  --muted-foreground: oklch(0.50 0.01 260);
+  /* Premium warm highlight for CTAs/details */
+  --accent: #e8c7ad;
+  --accent-foreground: #3e2f26;
 
-  --border: oklch(0.92 0.005 260);
-  --input: oklch(0.92 0.005 260);
-  --ring: oklch(0.60 0.02 260);
+  --muted: #f8efe7;
+  --muted-foreground: #8b7668;
+
+  --border: #d8c2af;
+  --input: #fffaf7;
+  --ring: rgba(160, 90, 58, 0.22);
+
+  /* Premium extras */
+  --brand-brown-dark: #87503a;
+  --brand-brown-light: #c18b6d;
+  --brand-cream: #f5e9dd;
+  --brand-beige: #ede1d5;
+
+  --shadow-soft: 0 12px 35px rgba(114, 78, 58, 0.1);
+  --shadow-premium: 0 24px 60px rgba(114, 78, 58, 0.16);
 }
+
+/* =========================================================
+   DARK MODE — Warm Luxury Brown
+========================================================= */
 
 .dark {
-  --background: oklch(0.14 0.005 260);
-  --foreground: oklch(0.92 0.005 260);
+  --background: #1f1815;
+  --foreground: #f3e7dc;
 
-  --card: oklch(0.18 0.005 260);
-  --card-foreground: oklch(0.92 0.005 260);
+  --card: #2a211d;
+  --card-foreground: #f3e7dc;
 
-  --primary: oklch(0.70 0.02 260);
-  --secondary: oklch(0.25 0.005 260);
-  --accent: oklch(0.30 0.02 250);
+  --popover: #241d19;
+  --popover-foreground: #f3e7dc;
 
-  --border: oklch(0.28 0.005 260);
+  --primary: #c48768;
+  --primary-foreground: #1f1815;
+
+  --secondary: #332924;
+  --secondary-foreground: #cfbeb2;
+
+  --accent: #4a382f;
+  --accent-foreground: #f3e7dc;
+
+  --muted: #2a221d;
+  --muted-foreground: #a9988c;
+
+  --border: rgba(196, 135, 104, 0.24);
+  --input: #2f2621;
+  --ring: rgba(196, 135, 104, 0.28);
+
+  --brand-brown-dark: #d49b7b;
+  --brand-brown-light: #e6b99e;
+
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.42);
+  --shadow-premium: 0 30px 80px rgba(0, 0, 0, 0.52);
 }
 
-/* ========================= */
-/* 🧠 BASE IMPROVEMENTS */
-/* ========================= */
+/* =========================================================
+   BASE STYLES
+========================================================= */
 
 @layer base {
   * {
@@ -87,36 +132,400 @@
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground transition-all duration-500 ease-in-out;
-    
-    /* 🌿 Premium feel */
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+
+    /* Cream textured luxury background */
+    background:
+      radial-gradient(
+        circle at top right,
+        rgba(160, 90, 58, 0.06),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at bottom left,
+        rgba(193, 139, 109, 0.08),
+        transparent 35%
+      ),
+      linear-gradient(
+        180deg,
+        #fbf6f1 0%,
+        #f5e9dd 100%
+      );
+
+    color: var(--foreground);
     letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
+    transition:
+      background 0.45s ease,
+      color 0.45s ease;
+  }
+
+  /* Keep layout spacing consistent across pages */
+  main {
+    @apply relative;
+  }
+
+  section {
+    @apply relative;
+  }
+
+  .dark body {
+    background:
+      radial-gradient(
+        circle at top right,
+        rgba(196, 135, 104, 0.08),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at bottom left,
+        rgba(160, 90, 58, 0.08),
+        transparent 35%
+      ),
+      linear-gradient(
+        180deg,
+        #2a211d 0%,
+        #1f1815 100%
+      );
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    color: var(--foreground);
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5.8rem);
+  }
+
+  h2 {
+    font-size: clamp(2.25rem, 6vw, 4rem);
+  }
+
+  h3 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+
+  p {
+    color: var(--muted-foreground);
+    line-height: 1.8;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  a:hover {
+    color: var(--primary);
+  }
+
+  ::selection {
+    background: rgba(160, 90, 58, 0.16);
+    color: var(--foreground);
   }
 }
 
-/* ========================= */
-/* ✨ EXTRA LUXURY TOUCHES */
-/* ========================= */
+/* =========================================================
+   PREMIUM COMPONENT UTILITIES
+========================================================= */
 
-/* Soft shadow (premium) */
-.shadow-luxury {
-  box-shadow: 0 10px 40px oklch(0.2 0.02 95 / 0.08);
+@layer utilities {
+  /* Main luxury card */
+  .glass-card {
+    background: rgba(251, 246, 241, 0.72);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    border: 1px solid rgba(160, 90, 58, 0.08);
+    border-radius: 2rem;
+
+    box-shadow: var(--shadow-soft);
+
+    transition: all 0.35s ease;
+  }
+
+  .dark .glass-card {
+    background: rgba(42, 33, 29, 0.72);
+    border: 1px solid rgba(196, 135, 104, 0.12);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-premium);
+  }
+
+  /* Primary luxury button */
+  .btn-primary {
+    background: linear-gradient(
+      135deg,
+      #b56d49 0%,
+      #a05a3a 42%,
+      #87503a 100%
+    );
+
+    color: white;
+    border-radius: 999px;
+    padding: 0.9rem 1.7rem;
+
+    font-weight: 500;
+    letter-spacing: -0.01em;
+
+    box-shadow: 0 16px 38px rgba(160, 90, 58, 0.3);
+
+    transition: all 0.35s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 52px rgba(160, 90, 58, 0.4);
+    filter: brightness(1.02);
+  }
+
+  /* Secondary outline button */
+  .btn-secondary {
+    background: rgba(255, 250, 247, 0.75);
+    color: var(--primary);
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    padding: 0.9rem 1.5rem;
+
+    backdrop-filter: blur(14px);
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: #fffaf7;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .dark .btn-secondary {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Elegant input */
+  .input-luxury {
+    background: rgba(255, 250, 247, 0.8);
+    border: 1px solid var(--border);
+
+    border-radius: 1.25rem;
+    padding: 0.95rem 1.1rem;
+
+    transition: all 0.3s ease;
+  }
+
+  .dark .input-luxury {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .input-luxury:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 5px rgba(160, 90, 58, 0.1);
+  }
+
+  /* Luxury section background */
+  .section-soft {
+    background: linear-gradient(
+      180deg,
+      rgba(251, 246, 241, 0.8) 0%,
+      rgba(245, 233, 221, 0.95) 100%
+    );
+  }
+
+  .dark .section-soft {
+    background: linear-gradient(
+      180deg,
+      rgba(42, 33, 29, 0.7) 0%,
+      rgba(31, 24, 21, 0.95) 100%
+    );
+  }
+
+  /* Premium navbar */
+  .navbar-luxury {
+    background: rgba(245, 233, 221, 0.72);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(160, 90, 58, 0.08);
+  }
+
+  .dark .navbar-luxury {
+    background: rgba(31, 24, 21, 0.75);
+    border-bottom: 1px solid rgba(196, 135, 104, 0.12);
+  }
+
+  /* Decorative text style */
+  .text-brand {
+    color: var(--primary);
+  }
+
+  .heading-brand {
+    font-family: var(--font-heading);
+    color: var(--foreground);
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  /* Thin luxury border */
+  .border-luxury {
+    border: 1px solid rgba(160, 90, 58, 0.08);
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    transition: all 0.35s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Decorative background blobs inspired by PDF */
+  .bg-brand-glow {
+    position: relative;
+  }
+
+  .bg-brand-glow::before {
+    content: "";
+    position: absolute;
+    top: -8rem;
+    right: -6rem;
+    width: 18rem;
+    height: 18rem;
+    background: rgba(160, 90, 58, 0.08);
+    border-radius: 999px;
+    filter: blur(70px);
+    pointer-events: none;
+  }
+
+  .bg-brand-glow::after {
+    content: "";
+    position: absolute;
+    bottom: -6rem;
+    left: -5rem;
+    width: 14rem;
+    height: 14rem;
+    background: rgba(193, 139, 109, 0.08);
+    border-radius: 999px;
+    filter: blur(60px);
+    pointer-events: none;
+  }
 }
 
-/* Glass effect */
-.glass {
-  backdrop-filter: blur(20px);
-  background: oklch(1 0 0 / 0.6);
+/* =========================================================
+   GLOBAL SYSTEM (MAINTAINABLE)
+   Apply once here, reflected site-wide.
+========================================================= */
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-10;
+  }
+
+  .section-shell {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  .title-xl {
+    font-family: var(--font-heading);
+    color: var(--foreground);
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+  }
+
+  .title-md {
+    font-family: var(--font-heading);
+    color: var(--foreground);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  .text-body {
+    color: var(--muted-foreground);
+    line-height: 1.75;
+  }
+
+  .surface-card {
+    background: color-mix(in srgb, var(--card) 82%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+    box-shadow: var(--shadow-soft);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .surface-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-premium);
+    border-color: color-mix(in srgb, var(--primary) 20%, var(--border));
+  }
 }
 
-/* Smooth hover */
-.hover-lift {
-  transition: all 0.3s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-2px);
+@layer base {
+  /* shadcn/ui button primitives */
+  button,
+  [data-slot="button"] {
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease,
+      background-color 0.22s ease,
+      border-color 0.22s ease,
+      color 0.22s ease;
+  }
+
+  button:active,
+  [data-slot="button"]:active {
+    transform: translateY(1px);
+  }
+
+  /* shadcn/ui cards */
+  [data-slot="card"] {
+    border-color: color-mix(in srgb, var(--border) 85%, transparent);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Inputs and form controls, globally premium but subtle */
+  input,
+  textarea,
+  select,
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="select-trigger"] {
+    border-color: color-mix(in srgb, var(--border) 88%, transparent);
+    background: color-mix(in srgb, var(--input) 92%, white 8%);
+    transition:
+      border-color 0.22s ease,
+      box-shadow 0.22s ease,
+      background-color 0.22s ease;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus,
+  [data-slot="input"]:focus-within,
+  [data-slot="textarea"]:focus-within,
+  [data-slot="select-trigger"]:focus-within {
+    border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
+  }
 }

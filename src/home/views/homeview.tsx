@@ -5,7 +5,7 @@ import { ProductCollection } from "../components/productcollection";
 import ScrollAnimation from "../components/scrollanimation";
 import { VideoSection } from "../components/videosection";
 import ProductImageDatabase from "../components/productimagedatabase";
-import UploadsVideos from "../components/uplaodsvideos";
+import VideosGrid from "../components/videosgrid";
 
 export const HomeView = () => {
     return (
@@ -16,7 +16,7 @@ export const HomeView = () => {
             <ProductCollection />
             <ScrollAnimation />
             <VideoSection />
-            <UploadsVideos/>
+            <VideosGrid />
         </div>
     );
 };

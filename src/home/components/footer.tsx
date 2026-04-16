@@ -29,14 +29,14 @@ export const Footer = () => {
     ];
 
     return (
-        <footer className="bg-[#0e0e0e] text-white pt-24 pb-12 overflow-hidden border-t border-white/5">
+        <footer className="bg-foreground text-primary-foreground pt-24 pb-12 overflow-hidden border-t border-primary-foreground/10">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
 
                     {/* Brand Identity Section */}
                     <div className="space-y-8">
                         <Link href="/" className="flex items-center gap-4 group">
-                            <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/20 bg-white/10 flex-shrink-0">
+                            <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/30 bg-primary-foreground/15 flex-shrink-0">
                                 <img
                                     src="/download.jfif"
                                     alt="Alome Logo"
@@ -47,12 +47,12 @@ export const Footer = () => {
                                 ALOMA
                             </span>
                         </Link>
-                        <p className="text-white/50 text-base leading-relaxed font-light max-w-xs">
+                        <p className="text-primary-foreground/60 text-base leading-relaxed font-light max-w-xs">
                             Elevating the essence of natural beauty through botanical wisdom and artisanal craftsmanship. Pure. Ethical. Timeless.
                         </p>
                         <div className="flex items-center gap-6 pt-2">
                             {[Instagram, Twitter, Facebook].map((Icon, i) => (
-                                <Link key={i} href="#" className="text-white/40 hover:text-primary transition-colors duration-300">
+                                <Link key={i} href="#" className="text-primary-foreground/50 hover:text-primary transition-colors duration-300">
                                     <Icon size={20} strokeWidth={1.5} />
                                 </Link>
                             ))}
@@ -70,7 +70,7 @@ export const Footer = () => {
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
-                                            className="text-white/50 hover:text-white hover:translate-x-2 inline-block transition-all duration-300 font-light text-base"
+                                            className="text-primary-foreground/60 hover:text-primary-foreground hover:translate-x-2 inline-block transition-all duration-300 font-light text-base"
                                         >
                                             {link.name}
                                         </Link>
@@ -85,16 +85,16 @@ export const Footer = () => {
                         <h4 className="text-xs uppercase tracking-[0.3em] font-bold text-primary">
                             The Journal
                         </h4>
-                        <p className="text-white/50 text-sm font-light leading-relaxed">
+                        <p className="text-primary-foreground/60 text-sm font-light leading-relaxed">
                             Join our community and receive exclusive botanical wisdom and early access to new rituals.
                         </p>
                         <div className="relative group">
                             <input
                                 type="email"
                                 placeholder="email@example.com"
-                                className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-4 text-sm font-light focus:outline-none focus:border-primary/50 transition-colors placeholder:text-white/20"
+                                className="w-full bg-primary-foreground/8 border border-primary-foreground/15 rounded-full px-6 py-4 text-sm font-light text-primary-foreground focus:outline-none focus:border-primary/50 transition-colors placeholder:text-primary-foreground/35"
                             />
-                            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary p-2 rounded-full text-white hover:scale-110 transition-transform">
+                            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary p-2 rounded-full text-primary-foreground hover:scale-110 transition-transform">
                                 <ArrowRight size={18} />
                             </button>
                         </div>
@@ -102,8 +102,8 @@ export const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div className="text-white/30 text-xs font-light tracking-widest uppercase">
+                <div className="pt-12 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div className="text-primary-foreground/40 text-xs font-light tracking-widest uppercase">
                         © {currentYear} ALOMA. All rights reserved.
                     </div>
                     <div className="flex gap-10">
@@ -111,7 +111,7 @@ export const Footer = () => {
                             <Link
                                 key={item}
                                 href="#"
-                                className="text-white/30 hover:text-white text-[10px] uppercase tracking-[0.2em] transition-colors"
+                                className="text-primary-foreground/45 hover:text-primary-foreground text-[10px] uppercase tracking-[0.2em] transition-colors"
                             >
                                 {item}
                             </Link>

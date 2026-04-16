@@ -106,8 +106,8 @@ const HeroSlider = () => {
           </motion.div>
 
           {/* Luxury Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/25 to-foreground/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-transparent to-transparent" />
 
           {/* Content Wrapper */}
           <div className="absolute inset-0 flex items-center">
@@ -167,9 +167,9 @@ const HeroSlider = () => {
                   <button className="group relative flex items-center gap-2 overflow-hidden bg-primary px-8 py-4 text-primary-foreground transition-all hover:pr-12">
                     <span className="font-semibold uppercase tracking-widest text-xs">Shop Collection</span>
                     <ArrowRight className="absolute right-4 translate-x-12 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
-                    <div className="absolute inset-0 -translate-x-full bg-black/10 transition-transform group-hover:translate-x-0" />
+                    <div className="absolute inset-0 -translate-x-full bg-foreground/10 transition-transform group-hover:translate-x-0" />
                   </button>
-                  <Link href="/about" className="group flex items-center gap-2 px-8 py-4 border border-white/30 text-white backdrop-blur-sm transition-all hover:bg-white hover:text-black">
+                  <Link href="/about" className="group flex items-center gap-2 px-8 py-4 border border-primary-foreground/35 text-primary-foreground backdrop-blur-sm transition-all hover:bg-primary-foreground hover:text-foreground">
                     <span className="font-semibold uppercase tracking-widest text-xs">Discover Story</span>
                   </Link>
                 </motion.div>
@@ -192,13 +192,13 @@ const HeroSlider = () => {
         <div className="flex gap-4 order-1 md:order-2">
           <button
             onClick={prevSlide}
-            className="group relative h-14 w-14 flex items-center justify-center border border-white/20 text-white backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
+            className="group relative h-14 w-14 flex items-center justify-center border border-primary-foreground/20 text-primary-foreground backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
           >
             <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
           </button>
           <button
             onClick={nextSlide}
-            className="group relative h-14 w-14 flex items-center justify-center border border-white/20 text-white backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
+            className="group relative h-14 w-14 flex items-center justify-center border border-primary-foreground/20 text-primary-foreground backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
           >
             <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </button>
@@ -208,7 +208,7 @@ const HeroSlider = () => {
       {/* Progress Bars Indicator */}
       <div className="absolute bottom-0 left-0 w-full flex">
         {slides.map((_, i) => (
-          <div key={i} className="h-1 flex-1 bg-white/10 overflow-hidden cursor-pointer" onClick={() => { setIndex(i); setProgress(0); }}>
+          <div key={i} className="h-1 flex-1 bg-primary-foreground/15 overflow-hidden cursor-pointer" onClick={() => { setIndex(i); setProgress(0); }}>
             {i === index && (
               <motion.div
                 className="h-full bg-primary"

@@ -21,7 +21,7 @@ export const VideoSection = () => {
             <div className="container mx-auto">
                 <div className="relative aspect-video md:aspect-[21/9] rounded-[2rem] overflow-hidden border border-primary/10 shadow-k">
                     {/* Background Video */}
-                    <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 z-0 bg-foreground">
                         <video
                             ref={videoRef}
                             key="aloma-background-video"
@@ -30,17 +30,20 @@ export const VideoSection = () => {
                             loop
                             playsInline
                             preload="auto"
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover opacity-60"
                         >
-                            <source
-                                src="/videohome.mp4"
-                                type="video/mp4"
+                            <source src="/videohome.mp4" type="video/mp4" />
+                            {/* Fallback high-quality video if local fails */}
+                            <source 
+                                src="https://player.vimeo.com/external/494252666.sd.mp4?s=72ce530c3098305018659d57a26f866b17c8ae97&profile_id=165" 
+                                type="video/mp4" 
                             />
                             Your browser does not support the video tag.
                         </video>
-                        {/* Premium Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                        <div className="absolute inset-0 backdrop-blur-[1px]" />
+                        {/* Premium Dynamic Overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                        <div className="absolute inset-0 bg-primary/5 mix-blend-color" />
+                        <div className="absolute inset-0 backdrop-blur-[2px]" />
                     </div>
 
                     {/* Content */}
@@ -85,7 +88,7 @@ export const VideoSection = () => {
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 1.1, duration: 0.8 }}
                         >
-                            <button className="px-10 py-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-primary hover:text-white transition-all duration-500 shadow-xl group overflow-hidden relative">
+                            <button className="px-10 py-4 bg-primary-foreground text-foreground text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-500 shadow-xl group overflow-hidden relative">
                                 <span className="relative z-10">Discover The Ritual</span>
                                 <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                             </button>
@@ -93,8 +96,8 @@ export const VideoSection = () => {
                     </div>
 
                     {/* Premium Border Inner Glow */}
-                    <div className="absolute inset-0 border-[8px] border-white/5 pointer-events-none rounded-[2rem]" />
-                    <div className="absolute inset-0 border border-white/10 pointer-events-none rounded-[2rem]" />
+                    <div className="absolute inset-0 border-[8px] border-primary-foreground/10 pointer-events-none rounded-[2rem]" />
+                    <div className="absolute inset-0 border border-primary-foreground/15 pointer-events-none rounded-[2rem]" />
                 </div>
             </div>
 

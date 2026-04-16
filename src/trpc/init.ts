@@ -3,11 +3,25 @@ import { cache } from 'react';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 
+// export const createTRPCContext = cache(async () => {
+//   const session = await auth.api.getSession({
+//     headers: await headers(),
+//   });
+//   return {
+//     userId: session?.user?.id ?? null,
+//     user: session?.user ?? null,
+//   };
+// });
+
 export const createTRPCContext = cache(async () => {
+  const requestHeaders = await headers();
+
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: requestHeaders,
   });
+
   return {
+    headers: requestHeaders,
     userId: session?.user?.id ?? null,
     user: session?.user ?? null,
   };
