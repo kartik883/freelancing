@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { razorpay, verifyRazorpaySignature } from "@/lib/razorpay";
+import { getRazorpay, verifyRazorpaySignature } from "@/lib/razorpay";
 import { createShiprocketOrder } from "@/lib/shiprocket";
 import { db } from "@/db";
 import { order, orderItem, address, product, user, shipment } from "@/db/schema";
@@ -14,7 +14,8 @@ export const cartRouter = createTRPCRouter({
     .input(z.object({ amount: z.number() }))
     .mutation(async ({ input, ctx }) => {
       try {
-        const razorpayOrder = await razorpay.orders.create({
+        const rzp = getRazorpay();
+        const razorpayOrder = await rzp.orders.create({
           amount: Math.round(input.amount * 100), // Amount in paise
           currency: "INR",
           receipt: `receipt_${nanoid(10)}`,
@@ -26,13 +27,22 @@ export const cartRouter = createTRPCRouter({
           currency: razorpayOrder.currency,
           key: process.env.RAZORPAY_KEY_ID,
         };
-      } catch (error) {
-        console.error("Razorpay Order Creation Error:", error);
+      } catch (error: any) {
+        const rzp_key = process.env.RAZORPAY_KEY_ID || "";
+        console.error("Razorpay Order Creation Error Detail:", {
+          error: error.error || error,
+          hasKey: !!process.env.RAZORPAY_KEY_ID,
+          hasSecret: !!process.env.RAZORPAY_SECRET,
+          keyPrefix: rzp_key.substring(0, 9), // Should be rzp_test_ or rzp_live_
+          keyLength: rzp_key.length,
+        });
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create Razorpay order",
+          message: error?.error?.description || "Failed to create Razorpay order",
         });
       }
+
     }),
 
   // 2. Place Order (COD or Verified Prepaid)
@@ -107,10 +117,12 @@ export const cartRouter = createTRPCRouter({
 
       // 3. Trigger Shiprocket (Background or Sync)
       try {
+        console.log("Procedure: Attempting to create Shiprocket order for new order:", newOrder.id);
         const [addr] = await db.select().from(address).where(eq(address.id, addressId));
         const [userData] = await db.select().from(user).where(eq(user.id, ctx.userId));
 
         if (addr && userData) {
+            console.log("Procedure: Customer and address found. Calling Shiprocket API...");
             const shiprocketResponse = await createShiprocketOrder({
                 id: newOrder.id,
                 customerName: addr.fullName,
@@ -126,7 +138,7 @@ export const cartRouter = createTRPCRouter({
             });
 
             // If Shiprocket order created successfully, save stats
-            console.log("Shiprocket Order Created:", shiprocketResponse);
+            console.log("Procedure: Shiprocket Response:", JSON.stringify(shiprocketResponse, null, 2));
             
             if (shiprocketResponse && shiprocketResponse.order_id) {
                 await db.insert(shipment).values({
@@ -135,10 +147,15 @@ export const cartRouter = createTRPCRouter({
                     shiprocketShipmentId: shiprocketResponse.shipment_id?.toString(),
                     status: "processing",
                 });
+                console.log("Procedure: Shipment record created in DB.");
+            } else {
+                console.warn("Procedure: Shiprocket response did not contain an order_id.", shiprocketResponse);
             }
+        } else {
+            console.error("Procedure: Could not find address or user data for order creation. addressId:", addressId, "userId:", ctx.userId);
         }
       } catch (shipError) {
-        console.error("Shiprocket Integration Error (Non-blocking):", shipError);
+        console.error("Procedure: Shiprocket Integration Error (Non-blocking):", shipError);
       }
 
       return { success: true, orderId: newOrder.id };

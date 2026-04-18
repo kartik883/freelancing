@@ -142,16 +142,18 @@ export const onboardingRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       try {
+        console.log("Onboarding: Sending OTP to", input.phoneNumber);
         await sendTwilioOtp(input.phoneNumber);
 
         return {
           success: true,
           message: "OTP sent successfully",
         };
-      } catch {
+      } catch (error: any) {
+        console.error("Onboarding: Send OTP Error:", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to send OTP",
+          message: error.message || "Failed to send OTP",
         });
       }
     }),

@@ -13,7 +13,7 @@ async function test() {
       state: "Haryana",
       pincode: "122001",
       email: "test@example.com",
-      phone: "9999999999",
+      phone: "9876543210",
       paymentMethod: "cod",
       totalAmount: 500,
       items: [

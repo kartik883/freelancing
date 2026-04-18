@@ -34,6 +34,22 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const COUNTRIES = [
+  { code: "+91", flag: "🇮🇳", label: "IN" },
+  { code: "+1",  flag: "🇺🇸", label: "US" },
+  { code: "+44", flag: "🇬🇧", label: "UK" },
+  { code: "+971",flag: "🇦🇪", label: "UAE" },
+  { code: "+65", flag: "🇸🇬", label: "SG" },
+  { code: "+61", flag: "🇦🇺", label: "AU" },
+];
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -55,6 +71,7 @@ export function OnboardingForm() {
   const [resendTimer, setResendTimer] = useState(0);
   
   const [otpStep, setOtpStep] = useState(false);
+  const [countryCode, setCountryCode] = useState("+91");
   const [phoneInput, setPhoneInput] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [verificationEmail, setVerificationEmail] = useState("");
@@ -185,7 +202,8 @@ export function OnboardingForm() {
 
   const onVerifyPhoneOtp = () => {
     if (otpCode.length !== 6) return toast.error("Enter the 6-digit code");
-    verifyOtp.mutate({ phoneNumber: phoneInput, code: otpCode });
+    const fullPhone = `${countryCode}${phoneInput}`.replace(/\s+/g, "");
+    verifyOtp.mutate({ phoneNumber: fullPhone, code: otpCode });
   };
 
   const onSubmitForm = (values: FormValues) => {
@@ -291,14 +309,39 @@ export function OnboardingForm() {
                   {status.phoneNumber}
                 </div>
              ) : !otpStep ? (
-                <div className="pl-11 flex gap-3">
-                   <Input 
-                     placeholder="+91 98765 43210" 
-                     className="rounded-xl h-11"
-                     value={phoneInput}
-                     onChange={(e) => setPhoneInput(e.target.value)}
-                   />
-                   <Button onClick={() => sendOtp.mutate({ phoneNumber: phoneInput })} disabled={sendOtp.isPending} className="rounded-xl h-11 px-6">
+                <div className="pl-11 flex flex-col gap-3">
+                   <div className="flex gap-2">
+                     <Select value={countryCode} onValueChange={setCountryCode}>
+                       <SelectTrigger className="w-[100px] h-11 rounded-xl">
+                         <SelectValue />
+                       </SelectTrigger>
+                       <SelectContent className="z-[10000]">
+                         {COUNTRIES.map((c) => (
+                           <SelectItem key={c.code} value={c.code}>
+                             <span className="flex items-center gap-1.5 text-sm">
+                               <span>{c.flag}</span>
+                               <span>{c.code}</span>
+                             </span>
+                           </SelectItem>
+                         ))}
+                       </SelectContent>
+                     </Select>
+                     <Input 
+                       placeholder="98765 43210" 
+                       className="rounded-xl h-11 flex-1"
+                       value={phoneInput}
+                       onChange={(e) => setPhoneInput(e.target.value.replace(/[^\d]/g, ""))}
+                     />
+                   </div>
+                   <Button 
+                     onClick={() => {
+                        const fullPhone = `${countryCode}${phoneInput}`.replace(/\s+/g, "");
+                        if (phoneInput.length < 7) return toast.error("Enter a valid phone number");
+                        sendOtp.mutate({ phoneNumber: fullPhone });
+                     }} 
+                     disabled={sendOtp.isPending} 
+                     className="rounded-xl h-11 px-6 w-full"
+                   >
                      {sendOtp.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Send OTP"}
                    </Button>
                 </div>
