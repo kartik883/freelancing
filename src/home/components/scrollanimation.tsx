@@ -1,148 +1,312 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
-import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ScrollAnimation = () => {
-    const sectionRef = useRef<HTMLDivElement>(null);
+const sections = [
+  {
+    id: "01",
+    eyebrow: "ONLY WHAT YOU NEED",
+    title: "The Essence of Nature",
+    subtitle:
+      "Distilled from the world's most pristine botanical sources, captured at their peak potency.",
+    image:
+      "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=1600",
+  },
+  {
+    id: "02",
+    eyebrow: "PURITY MEETS SCIENCE",
+    title: "Advanced Bio-Science",
+    subtitle:
+      "Where ancient wisdom meets cutting-edge molecular research for transformative results.",
+    image:
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1600",
+  },
+  {
+    id: "03",
+    eyebrow: "RITUAL OF RADIANCE",
+    title: "Luminous Transformation",
+    subtitle:
+      "Experience a level of radiance and clarity that defines true premium skincare.",
+    image:
+      "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&q=80&w=1600",
+  },
+];
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            // Main pinning timeline
-            const mainTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top top",
-                    end: "+=400%",
-                    pin: true,
-                    scrub: 1.5,
-                }
-            });
+export default function ScrollAnimation() {
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-            // Initial state for sections (except first)
-            gsap.set(".section-2, .section-3", { opacity: 0, scale: 0.9, y: 50 });
+  useEffect(() => {
+    if (!sectionRef.current) return;
 
-            // Timeline Sequence
-            mainTl
-                .to(".section-1", { opacity: 0, scale: 1.1, y: -50, duration: 1.5 })
-                .to(".section-2", { opacity: 1, scale: 1, y: 0, duration: 1.5 }, "-=0.5")
-                .to(".section-2", { opacity: 0, scale: 1.1, y: -50, duration: 1.5 }, "+=1")
-                .to(".section-3", { opacity: 1, scale: 1, y: 0, duration: 1.5 }, "-=0.5");
+    const ctx = gsap.context(() => {
+      const slides = gsap.utils.toArray<HTMLElement>(".premium-slide");
 
-            // Parallax on image containers
-            gsap.utils.toArray<HTMLElement>(".image-container").forEach((container) => {
-                gsap.to(container.querySelector("img"), {
-                    yPercent: 15,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: container,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            });
+      // Hide all slides except first
+      gsap.set(slides, {
+        autoAlpha: 0,
+      });
 
-        }, sectionRef);
+      gsap.set(slides[0], {
+        autoAlpha: 1,
+      });
 
-        return () => ctx.revert();
-    }, []);
+      slides.forEach((slide, index) => {
+        const content = slide.querySelector(".slide-content");
+        const imageWrap = slide.querySelector(".slide-image-wrap");
+        const image = slide.querySelector(".slide-image");
 
-    const sections = [
-        {
-            id: "1",
-            title: "The Essence of Nature",
-            subtitle: "Distilled from the world's most pristine botanical sources, captured at their peak potency.",
-            image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=1200",
-            className: "section-1"
-        },
-        {
-            id: "2",
-            title: "Advanced Bio-Science",
-            subtitle: "Where ancient wisdom meets cutting-edge molecular research for transformative results.",
-            image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1200",
-            className: "section-2 absolute inset-0 flex items-center justify-center pointer-events-none"
-        },
-        {
-            id: "3",
-            title: "Luminous Transformation",
-            subtitle: "Experience a level of radiance and clarity that defines true premium skincare.",
-            image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&q=80&w=1200",
-            className: "section-3 absolute inset-0 flex items-center justify-center pointer-events-none"
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `${index * 100}% top`,
+            end: `${(index + 1) * 100}% top`,
+            scrub: 1.2,
+          },
+        });
+
+        // Reveal current slide
+        tl.to(
+          slide,
+          {
+            autoAlpha: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          0
+        );
+
+        // Text moves horizontally
+        tl.fromTo(
+          content,
+          {
+            x: index % 2 === 0 ? -120 : 120,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+          },
+          0
+        );
+
+        // Image moves vertically
+        tl.fromTo(
+          imageWrap,
+          {
+            y: 120,
+            opacity: 0,
+            scale: 0.92,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "power3.out",
+          },
+          0.05
+        );
+
+        // Parallax effect on image
+        if (image) {
+          gsap.fromTo(
+            image,
+            {
+              yPercent: -10,
+              scale: 1.15,
+            },
+            {
+              yPercent: 10,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: slide,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            }
+          );
         }
-    ];
 
-    return (
-        <section ref={sectionRef} className="relative h-screen w-full bg-[#0a0c0b] text-white overflow-hidden">
-            {/* Dark Premium Glows */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[60%] h-[60%] bg-primary/20 blur-[120px] rounded-full opacity-30" />
-                <div className="absolute bottom-0 right-1/4 w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full opacity-20" />
+        // Hide previous slide
+        if (index > 0) {
+          tl.to(
+            slides[index - 1],
+            {
+              autoAlpha: 0,
+              xPercent: -10,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            0
+          );
+        }
+      });
+
+      // Pin whole section
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: `+=${sections.length * 120}%`,
+        pin: true,
+        scrub: 1,
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-screen overflow-hidden bg-background"
+    >
+      {/* Background texture */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-multiply bg-[radial-gradient(circle_at_1px_1px,rgba(160,90,58,0.45)_1px,transparent_0)] [background-size:22px_22px]" />
+
+      {/* Soft luxury glows */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-20 right-[-10%] h-[30rem] w-[30rem] rounded-full bg-primary/15 blur-[120px]" />
+        <div className="absolute bottom-[-10rem] left-[-10%] h-[26rem] w-[26rem] rounded-full bg-accent/30 blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 h-full w-full">
+        {sections.map((section, index) => (
+          <div
+            key={section.id}
+            className="premium-slide absolute inset-0 flex items-center px-6 md:px-10 lg:px-16 xl:px-24"
+          >
+            <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
+              {/* Content */}
+              <div
+                className={`slide-content order-2 text-center lg:order-1 lg:text-left ${
+                  index % 2 !== 0 ? "lg:order-2" : ""
+                }`}
+              >
+                <div className="mb-6 flex items-center justify-center gap-4 lg:justify-start">
+                  <span className="text-[11px] uppercase tracking-[0.45em] text-primary">
+                    {section.eyebrow}
+                  </span>
+
+                  <div className="h-px w-16 bg-primary/40" />
+                </div>
+
+                <div className="mb-4 text-xs font-light uppercase tracking-[0.5em] text-primary/60">
+                  {section.id}
+                </div>
+
+                <h2 className="font-heading text-[3rem] leading-[0.9] tracking-[-0.06em] text-foreground sm:text-[4rem] md:text-[5rem] xl:text-[6rem]">
+                  {section.title.split(" ").map((word, i) => (
+                    <span key={i} className="block">
+                      {word}
+                    </span>
+                  ))}
+                </h2>
+
+                <p className="mx-auto mt-8 max-w-xl text-[15px] leading-8 text-muted-foreground sm:text-lg lg:mx-0">
+                  {section.subtitle}
+                </p>
+
+                <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
+                  <button className="rounded-full bg-primary px-8 py-4 text-sm uppercase tracking-[0.28em] text-primary-foreground shadow-[0_18px_45px_rgba(160,90,58,0.28)] transition-all duration-500 hover:-translate-y-1 hover:brightness-95 hover:shadow-[0_28px_65px_rgba(160,90,58,0.36)]">
+                    Discover More
+                  </button>
+
+                  <button className="rounded-full border border-primary/20 bg-card/60 px-8 py-4 text-sm uppercase tracking-[0.28em] text-muted-foreground backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 hover:bg-card/85">
+                    View Ritual
+                  </button>
+                </div>
+              </div>
+
+              {/* Image */}
+              <div
+                className={`slide-image-wrap order-1 mx-auto w-full max-w-[32rem] lg:order-2 ${
+                  index % 2 !== 0 ? "lg:order-1" : ""
+                }`}
+              >
+                <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-card/50 shadow-[0_40px_100px_rgba(80,52,38,0.18)] backdrop-blur-2xl">
+                  <div className="absolute inset-0 z-10 bg-gradient-to-tr from-primary/10 via-transparent to-primary-foreground/20 dark:from-foreground/20 dark:to-primary-foreground/[0.04]" />
+
+                  <div className="absolute left-5 top-5 z-20 rounded-full border border-primary-foreground/30 bg-card/30 px-4 py-2 text-[10px] uppercase tracking-[0.35em] text-muted-foreground backdrop-blur-xl">
+                    Purastone
+                  </div>
+
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <Image
+                      src={section.image}
+                      alt={section.title}
+                      fill
+                      priority={index === 0}
+                      className="slide-image object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div className="absolute -bottom-5 right-2 rounded-[1.5rem] border border-primary/10 bg-card/80 px-5 py-4 shadow-[0_20px_60px_rgba(80,52,38,0.12)] backdrop-blur-2xl md:right-[-1.5rem]">
+                  <div className="text-[10px] uppercase tracking-[0.35em] text-primary">
+                    Premium Care
+                  </div>
+                  <div className="mt-1 text-sm text-muted-foreground">
+                    Naturally refined for modern rituals.
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        ))}
+      </div>
 
-            <div className="container mx-auto h-full px-6 md:px-12 flex items-center justify-center relative z-10">
-                {sections.map((section, idx) => (
-                    <div key={section.id} className={`${section.className} w-full grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center`}>
-                        <div className="space-y-10 text-center lg:text-left">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 }}
-                                className="inline-block"
-                            >
-                                <span className="text-primary uppercase tracking-[0.5em] text-[10px] font-bold px-5 py-2.5 rounded-full border border-primary/20 bg-primary/10 backdrop-blur-sm">
-                                    Chronicle {idx + 1}
-                                </span>
-                            </motion.div>
-                            <h2 className="text-6xl md:text-8xl xl:text-9xl font-serif font-light tracking-tight leading-[0.9] text-white/95">
-                                {section.title.split(" ").map((word, i) => (
-                                    <span key={i} className="block">{word}</span>
-                                ))}
-                            </h2>
-                            <p className="text-white/60 text-lg md:text-xl font-light leading-relaxed max-w-md mx-auto lg:mx-0">
-                                {section.subtitle}
-                            </p>
-                        </div>
+      {/* Right side progress */}
+      <div className="absolute right-6 top-1/2 z-30 hidden -translate-y-1/2 xl:flex flex-col gap-6">
+        {sections.map((item) => (
+          <div key={item.id} className="group flex items-center gap-3">
+            <span className="translate-x-2 text-[10px] uppercase tracking-[0.45em] text-primary/0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary/80">
+              {item.id}
+            </span>
 
-                        <div className="image-container relative aspect-[4/5] overflow-hidden rounded-[4rem] shadow-[0_48px_96px_-24px_rgba(0,0,0,0.8)] border border-white/5">
-                            <Image
-                                src={section.image}
-                                alt={section.title}
-                                fill
-                                className="object-cover scale-110"
-                                priority={idx === 0}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-[#0a0c0b]/40 via-transparent to-white/5" />
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <div className="h-2 w-2 rounded-full bg-primary/20 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary" />
+          </div>
+        ))}
+      </div>
 
-            {/* Side Progress Navigation */}
-            <div className="absolute right-12 top-1/2 -translate-y-1/2 flex flex-col gap-8 hidden xl:flex z-20">
-                {sections.map((_, i) => (
-                    <div key={i} className="group flex items-center gap-6 cursor-pointer">
-                        <span className="text-[10px] text-white/40 uppercase tracking-[0.4em] font-bold opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
-                            PART {i + 1}
-                        </span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-primary group-hover:scale-150 transition-all duration-500 shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
-                    </div>
-                ))}
-            </div>
+      {/* Scroll hint */}
+      <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3">
+        <span className="text-[10px] uppercase tracking-[0.45em] text-primary/70">
+          Scroll To Reveal
+        </span>
 
-            {/* Footer Prompt */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-5 opacity-50 z-20">
-                <span className="text-[9px] text-white/60 uppercase tracking-[0.4em] font-medium">Scroll to Unveil</span>
-                <div className="w-[1px] h-16 bg-gradient-to-b from-primary via-primary/50 to-transparent" />
-            </div>
-        </section>
-    );
-};
+        <div className="relative h-16 w-px overflow-hidden bg-primary/10">
+          <div className="animate-scroll-line absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-primary to-transparent" />
+        </div>
+      </div>
 
-export default ScrollAnimation;
+      <style jsx>{`
+        .animate-scroll-line {
+          animation: scrollLine 1.8s ease-in-out infinite;
+        }
+
+        @keyframes scrollLine {
+          0% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(180%);
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}

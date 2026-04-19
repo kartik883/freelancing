@@ -44,6 +44,7 @@ export async function POST(req: Request) {
 
       // 3. Trigger Shiprocket if not already done
       try {
+        console.log("Webhook: Processing Shiprocket order for Razorpay Order ID:", razorpayOrderId);
         const [addr] = await db.select().from(address).where(eq(address.id, existingOrder.addressId));
         const [userData] = await db.select().from(user).where(eq(user.id, existingOrder.userId));
         const items = await db
@@ -58,6 +59,7 @@ export async function POST(req: Request) {
           .where(eq(orderItem.orderId, existingOrder.id));
 
         if (addr && userData) {
+          console.log("Webhook: Customer data found, creating Shiprocket order...");
           const shiprocketResponse = await createShiprocketOrder({
             id: existingOrder.id,
             customerName: addr.fullName,
@@ -77,6 +79,8 @@ export async function POST(req: Request) {
             totalAmount: parseFloat(existingOrder.totalAmount),
           });
 
+          console.log("Webhook: Shiprocket Response:", JSON.stringify(shiprocketResponse, null, 2));
+
           if (shiprocketResponse && shiprocketResponse.order_id) {
             await db.insert(shipment).values({
                 orderId: existingOrder.id,
@@ -84,10 +88,15 @@ export async function POST(req: Request) {
                 shiprocketShipmentId: shiprocketResponse.shipment_id?.toString(),
                 status: "processing",
             });
+            console.log("Webhook: Shipment record created in DB.");
+          } else {
+            console.warn("Webhook: Shiprocket order creation did not return an order_id.", shiprocketResponse);
           }
+        } else {
+          console.error("Webhook: Missing address or user data for order:", existingOrder.id);
         }
       } catch (error) {
-        console.error("Webhook Shiprocket Error:", error);
+        console.error("Webhook: Shiprocket Integration Error:", error);
       }
     }
   }

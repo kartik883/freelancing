@@ -151,7 +151,7 @@ const ProductCard = ({
         </p>
 
         {/* ✅ Independent button */}
-        <button className="w-full bg-white/90 backdrop-blur-md text-black py-3 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300">
+        <button className="w-full bg-card/95 backdrop-blur-md text-foreground py-3 text-[10px] font-semibold uppercase tracking-[0.2em] border border-border hover:bg-primary hover:text-primary-foreground transition-all duration-300">
           Quick Shop
         </button>
       </div>

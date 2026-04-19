@@ -1,6 +1,6 @@
 import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { db } from "@/db";
-import { user, address, order, orderItem, product } from "@/db/schema";
+import { user, address, order, orderItem, product, shipment } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
@@ -82,5 +82,57 @@ export const profileRouter = createTRPCRouter({
                 .delete(address)
                 .where(eq(address.id, input.id));
             return { success: true };
+        }),
+
+    // Get specific order details with items and shipment
+    getOrderDetails: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const userId = ctx.userId;
+
+            // 1. Get the order (and verify ownership)
+            const [orderData] = await db
+                .select()
+                .from(order)
+                .where(eq(order.id, input.id));
+
+            if (!orderData || orderData.userId !== userId) {
+                throw new Error("Order not found or access denied");
+            }
+
+            // 2. Get order items with product info
+            const items = await db
+                .select({
+                    id: orderItem.id,
+                    quantity: orderItem.quantity,
+                    price: orderItem.price,
+                    product: {
+                        id: product.id,
+                        name: product.name,
+                        image: product.image,
+                    },
+                })
+                .from(orderItem)
+                .leftJoin(product, eq(orderItem.productId, product.id))
+                .where(eq(orderItem.orderId, input.id));
+
+            // 3. Get address
+            const [orderAddress] = await db
+                .select()
+                .from(address)
+                .where(eq(address.id, orderData.addressId));
+
+            // 4. Get shipment info
+            const [shipmentInfo] = await db
+                .select()
+                .from(shipment)
+                .where(eq(shipment.orderId, orderData.id));
+
+            return {
+                ...orderData,
+                items,
+                address: orderAddress,
+                shipment: shipmentInfo || null,
+            };
         }),
 });

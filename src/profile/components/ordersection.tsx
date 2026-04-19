@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Package, ShoppingBag } from "lucide-react";
+import Link from "next/link";
 
 type Order = {
     id: string;
@@ -35,44 +36,54 @@ export const OrderSection = ({ orders }: { orders: Order[] }) => {
                     <p className="text-xs text-muted-foreground/60 mt-1">Your orders will appear here</p>
                 </div>
             ) : (
-                <div className="space-y-3">
-                    {orders.map((order, i) => {
-                        const status = (order.status ?? "pending").toLowerCase();
-                        const colorClass = statusColors[status] ?? statusColors.pending;
-                        const date = new Date(order.createdAt).toLocaleDateString("en-IN", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                        });
+                <>
+                    <div className="space-y-3">
+                        {orders.map((order, i) => {
+                            const status = (order.status ?? "pending").toLowerCase();
+                            const colorClass = statusColors[status] ?? statusColors.pending;
+                            const date = new Date(order.createdAt).toLocaleDateString("en-IN", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                            });
 
-                        return (
-                            <motion.div
-                                key={order.id}
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="flex items-center justify-between border border-border/40 px-5 py-4 hover:border-primary/30 transition-colors"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-9 h-9 bg-secondary/40 flex items-center justify-center">
-                                        <Package size={16} className="text-muted-foreground" />
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-medium text-foreground">#{order.id.slice(0, 8).toUpperCase()}</p>
-                                        <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest">{date}</p>
-                                    </div>
-                                </div>
+                            return (
+                                <motion.div
+                                    key={order.id}
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                >
+                                    <Link href={`/profile/orders/${order.id}`}>
+                                        <div className="flex items-center justify-between border border-border/40 px-5 py-4 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 group cursor-pointer rounded-xl">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-9 h-9 bg-secondary/40 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 rounded-lg">
+                                                    <Package size={16} className="text-muted-foreground" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-semibold text-foreground tracking-tight underline-offset-4 group-hover:underline">#{order.id.slice(0, 8).toUpperCase()}</p>
+                                                    <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-medium">{date}</p>
+                                                </div>
+                                            </div>
 
-                                <div className="flex items-center gap-4">
-                                    <p className="text-sm font-light text-foreground">₹{order.totalAmount}</p>
-                                    <span className={`text-[9px] uppercase tracking-[0.2em] font-semibold px-3 py-1 border rounded-full ${colorClass}`}>
-                                        {status}
-                                    </span>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-                </div>
+                                            <div className="flex items-center gap-4">
+                                                <p className="text-sm font-light text-foreground italic">₹{order.totalAmount}</p>
+                                                <span className={`text-[9px] uppercase tracking-[0.2em] font-bold px-3 py-1 border rounded-full transition-colors ${colorClass}`}>
+                                                    {status}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                    <div className="mt-8 text-center pt-6 border-t border-primary/5">
+                        <Link href="/profile/orders" className="text-[10px] uppercase tracking-[0.3em] font-bold text-primary hover:tracking-[0.4em] transition-all">
+                            View Full History
+                        </Link>
+                    </div>
+                </>
             )}
         </section>
     );

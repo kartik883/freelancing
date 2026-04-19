@@ -334,7 +334,7 @@ const CartView = () => {
                                                 <p className="text-lg font-medium tracking-wider">{item.price}</p>
                                             </div>
                                             <div className="flex items-center justify-center sm:justify-between w-full">
-                                                <div className="flex items-center bg-white border border-primary/10 rounded-full px-2 py-1 shadow-sm">
+                                                <div className="flex items-center bg-background border border-primary/10 rounded-full px-2 py-1 shadow-sm">
                                                     <button
                                                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                                         className="p-2 hover:text-primary transition-colors outline-none"

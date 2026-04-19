@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description: "Elevating your brand identity with modern design.",
 };
 
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
@@ -33,8 +34,15 @@ export default function RootLayout({
       className={`${inter.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        {children}
-        <Toaster richColors position="top-center" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster richColors position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
     </TRPCReactProvider>
