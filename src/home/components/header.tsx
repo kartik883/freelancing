@@ -86,7 +86,7 @@ const Header = () => {
           {/* Left: Mobile Menu Trigger & Logo */}
           <div className="flex items-center gap-4">
             <button
-              className={`md:hidden p-2 -ml-2 transition-colors ${isScrolled ? "text-foreground hover:bg-primary/5" : "text-foreground hover:bg-secondary/30"
+              className={`lg:hidden p-2 -ml-2 transition-colors ${isScrolled ? "text-foreground hover:bg-primary/5" : "text-foreground hover:bg-secondary/30"
                 }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -110,7 +110,7 @@ const Header = () => {
           </div>
 
           {/* Center: Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden lg:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}

@@ -1,11 +1,14 @@
-import { HomeView } from "@/home/views/homeview";
+import { HomeLoadingState, HomeView } from "@/home/views/homeview";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const queryclient = getQueryClient();
+  
 
   // Pre-fetching data on the server
   await Promise.all([
@@ -15,8 +18,20 @@ export default async function Home() {
   ]);
 
   return (
-    <HydrationBoundary state={dehydrate(queryclient)}>
+   <HydrationBoundary state={dehydrate(queryclient)}>
+  <Suspense fallback={<HomeLoadingState/>}>
+    <ErrorBoundary fallback={
+      <div>
+        <h1>Something went wrong</h1>
+        <p>Please try again later</p>
+      </div>}>
       <HomeView />
-    </HydrationBoundary>
+    </ErrorBoundary>
+
+  </Suspense>
+
+</HydrationBoundary>
   );
 }
+
+

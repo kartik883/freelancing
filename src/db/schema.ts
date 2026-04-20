@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/pg-core";
 import { nanoid } from 'nanoid'
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -91,6 +91,8 @@ export const product = pgTable("product", {
   stock: text("stock").notNull(),
   categoryId: text("category_id"),
   howToUse: text("how_to_use"),
+  isNewLaunch: boolean("is_new_launch").default(false),
+  launchPriority: integer("launch_priority").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

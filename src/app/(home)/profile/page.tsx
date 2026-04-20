@@ -7,9 +7,9 @@ import { ProfileView } from "@/profile/views/profileview";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
-export default async function  ProfilePage() {
+export default async function ProfilePage() {
     const queryClient = getQueryClient();
-    
+
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>

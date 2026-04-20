@@ -7,6 +7,87 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+
+
+
+const ProductImageDatabase = () => {
+    const trpc = useTRPC();
+    const { data: products } = useSuspenseQuery(
+        trpc.home.getProductsWithImages.queryOptions()
+    );
+
+    if (!products || products.length === 0) {
+        return (
+            <section className="py-24 px-6 md:px-12 bg-background text-center">
+                <p className="text-muted-foreground text-sm uppercase tracking-widest">
+                    No products found
+                </p>
+            </section>
+        );
+    }
+
+    return (
+        <section className="py-24 bg-background px-6 md:px-12">
+            <div className="container mx-auto">
+                {/* ── Header ── */}
+                <div className="flex flex-col items-center mb-16 space-y-4">
+                    <motion.span
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-primary uppercase tracking-[0.4em] text-xs font-semibold"
+                    >
+                        Our Range
+                    </motion.span>
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-4xl md:text-6xl font-serif font-light tracking-tight text-center"
+                    >
+                        Featured Products
+                    </motion.h2>
+
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="h-[1px] w-24 bg-primary/30 mt-4 origin-center"
+                    />
+                </div>
+
+                {/* ── Grid ── */}
+                <div className="flex gap-6 overflow-x-auto pb-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-10 md:overflow-visible">
+                    {products.map((product, idx) => (
+                        <div key={product.id} className="min-w-[260px] md:min-w-0">
+                            <ProductCardDB product={product} index={idx} />
+                        </div>
+                    ))}
+                </div>
+
+                {/* ── View all CTA ── */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                    className="flex justify-center mt-14"
+                >
+                    <Link
+                        href="/collection"
+                        className="border border-foreground/30 px-10 py-3 text-[11px] uppercase tracking-[0.3em] font-semibold hover:bg-foreground hover:text-background transition-all duration-300"
+                    >
+                        View All Products
+                    </Link>
+                </motion.div>
+            </div>
+        </section>
+    );
+};
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 type ProductWithImages = {
     id: string;
@@ -123,82 +204,6 @@ const ProductCardDB = ({
 };
 
 // ─── Section ──────────────────────────────────────────────────────────────────
-const ProductImageDatabase = () => {
-    const trpc = useTRPC();
-    const { data: products } = useSuspenseQuery(
-        trpc.home.getProductsWithImages.queryOptions()
-    );
 
-    if (!products || products.length === 0) {
-        return (
-            <section className="py-24 px-6 md:px-12 bg-background text-center">
-                <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                    No products found
-                </p>
-            </section>
-        );
-    }
-
-    return (
-        <section className="py-24 bg-background px-6 md:px-12">
-            <div className="container mx-auto">
-                {/* ── Header ── */}
-                <div className="flex flex-col items-center mb-16 space-y-4">
-                    <motion.span
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-primary uppercase tracking-[0.4em] text-xs font-semibold"
-                    >
-                        Our Range
-                    </motion.span>
-
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-serif font-light tracking-tight text-center"
-                    >
-                        Featured Products
-                    </motion.h2>
-
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3, duration: 0.8 }}
-                        className="h-[1px] w-24 bg-primary/30 mt-4 origin-center"
-                    />
-                </div>
-
-                {/* ── Grid ── */}
-                <div className="flex gap-6 overflow-x-auto pb-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-10 md:overflow-visible">
-                    {products.map((product, idx) => (
-                        <div key={product.id} className="min-w-[260px] md:min-w-0">
-                            <ProductCardDB product={product} index={idx} />
-                        </div>
-                    ))}
-                </div>
-
-                {/* ── View all CTA ── */}
-                <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="flex justify-center mt-14"
-                >
-                    <Link
-                        href="/collection"
-                        className="border border-foreground/30 px-10 py-3 text-[11px] uppercase tracking-[0.3em] font-semibold hover:bg-foreground hover:text-background transition-all duration-300"
-                    >
-                        View All Products
-                    </Link>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
 
 export default ProductImageDatabase;

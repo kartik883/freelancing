@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ScrollProvider } from "@/components/providers/scroll-provider";
 
 export default function RootLayout({
   children,
@@ -33,15 +34,17 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster richColors position="top-center" />
+          <ScrollProvider>
+            {children}
+            <Toaster richColors position="top-center" />
+          </ScrollProvider>
         </ThemeProvider>
       </body>
     </html>

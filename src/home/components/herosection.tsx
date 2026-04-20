@@ -76,7 +76,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="relative w-full h-screen overflow-hidden bg-background"
+      className=" mt-23 relative w-full lg:h-156 sm:h-130 overflow-hidden bg-background"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -224,7 +224,7 @@ const HeroSlider = () => {
 
       {/* Floating Decorative Elements */}
       <div className="absolute top-12 left-6 md:left-12 pointer-events-none">
-        <span className="text-white/20 font-serif italic text-sm tracking-widest uppercase">Est. 2024</span>
+        <span className="text-white/20 font-serif italic text-sm tracking-widest uppercase"></span>
       </div>
     </section>
   );
