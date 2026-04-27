@@ -5,10 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AuthDialog from "../components/authdialog";
 import HeroSlider from "../components/herosection";
-import { ProductCollection } from "../components/newlaunchproducts";
+import NewLaunchProducts  from "../components/newlaunchproducts";
 import ScrollAnimation from "../components/scrollanimation";
 import { VideoSection } from "../components/videosection";
-import ProductImageDatabase from "../components/productimagedatabase";
+import ProductImageDatabase from "../components/allproducts";
 import VideosGrid from "../components/videosgrid";
 import { PremiumLoadingState } from "@/components/common/premium-loading";
 
@@ -76,11 +76,13 @@ export const HomeView = () => {
             <AuthDialog />
             
             <HeroSlider />
-            <ProductImageDatabase />
+            
 
             <div className="scroll-reveal-section w-full">
-                <ProductCollection />
+                <NewLaunchProducts />
             </div>
+
+            <ProductImageDatabase />
 
             <div className="w-full">
                 <ScrollAnimation />

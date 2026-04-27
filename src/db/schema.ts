@@ -1,5 +1,6 @@
 import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/pg-core";
 import { nanoid } from 'nanoid'
+import { relations } from "drizzle-orm";
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -101,6 +102,29 @@ export const productImages = pgTable("product_images", {
   productId: text("product_id").notNull(),
   url: text("url").notNull(),
 });
+
+// export const productRelations = relations(product, ({ many }) => ({
+//   images: many(productImages),
+//   reviews: many(review),
+// }));
+
+// export const productImagesRelations = relations(productImages, ({ one }) => ({
+//   product: one(product, {
+//     fields: [productImages.productId],
+//     references: [product.id],
+//   }),
+// }));
+
+// export const reviewRelations = relations(review, ({ one }) => ({
+//   product: one(product, {
+//     fields: [review.productId],
+//     references: [product.id],
+//   }),
+//   user: one(user, {
+//     fields: [review.userId],
+//     references: [user.id],
+//   }),
+// }));
 
 export const curePductImages = pgTable("product_cure_images", {
   id: text("id").primaryKey().$default(nanoid),

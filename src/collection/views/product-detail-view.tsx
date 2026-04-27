@@ -11,6 +11,7 @@ import { ShoppingCart, Star, ChevronDown, ChevronUp, ArrowLeft, ChevronRight, Le
 import Link from "next/link";
 import BenifitSection from "../productviewcomponent/benifitsection";
 import IntroductionSection from "../productviewcomponent/introductionsection";
+import RelatedProducts from "../components/relatedproducts";
 
 const ProductDetailView = ({ id }: { id: string }) => {
     const trpc = useTRPC();
@@ -42,7 +43,7 @@ const ProductDetailView = ({ id }: { id: string }) => {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-[70vh]">
-                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+                <div className="w-9 h-9 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
             </div>
         );
     }
@@ -194,6 +195,8 @@ const ProductDetailView = ({ id }: { id: string }) => {
                     description={product.description || undefined}
                     howToUse={product.howToUse || undefined}
                 />
+
+                <RelatedProducts productId={product.id} />
 
 
                 {/* Reviews Section */}

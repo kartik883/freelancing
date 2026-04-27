@@ -1,7 +1,8 @@
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { db } from "@/db";
 import { curePductImages, product, productImages, videoUpload } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import { desc, or, ilike } from "drizzle-orm";
+import { z } from "zod";
 
 export const homeRouter = createTRPCRouter({
     // Fetch all products with their primary images + cure (hover) images
@@ -20,4 +21,42 @@ export const homeRouter = createTRPCRouter({
     getVideoUploads: baseProcedure.query(async () => {
         return await db.select().from(videoUpload).orderBy(desc(videoUpload.createdAt));
     }),
+    searchProducts: baseProcedure
+        .input(z.string().optional())
+        .query(async ({ input: query }) => {
+            if (!query) {
+                // Return 2 latest products if query is empty
+                const latestProducts = await db.select().from(product).limit(2).orderBy(desc(product.createdAt));
+                const primaryImages = await db.select().from(productImages);
+                const cureImages = await db.select().from(curePductImages);
+
+                return latestProducts.map((p) => ({
+                    ...p,
+                    productImage: p.image,
+                    primaryImages: primaryImages.filter((img) => img.productId === p.id),
+                    cureImages: cureImages.filter((img) => img.productId === p.id),
+                }));
+            }
+
+            // Search by name or description
+            const results = await db.select()
+                .from(product)
+                .where(
+                    or(
+                        ilike(product.name, `%${query}%`),
+                        ilike(product.description, `%${query}%`)
+                    )
+                )
+                .limit(3);
+
+            const primaryImages = await db.select().from(productImages);
+            const cureImages = await db.select().from(curePductImages);
+
+            return results.map((p) => ({
+                ...p,
+                productImage: p.image,
+                primaryImages: primaryImages.filter((img) => img.productId === p.id),
+                cureImages: cureImages.filter((img) => img.productId === p.id),
+            }));
+        }),
 });

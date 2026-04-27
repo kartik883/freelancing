@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Instagram, Twitter, Facebook, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
+import { BRAND_NAME, BRAND_LOGO, BRAND_DESCRIPTION } from "@/brandhelp";
 
 export const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -38,17 +39,17 @@ export const Footer = () => {
                         <Link href="/" className="flex items-center gap-4 group">
                             <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/30 bg-primary-foreground/15 flex-shrink-0">
                                 <img
-                                    src="/download.jfif"
-                                    alt="Alome Logo"
+                                    src={BRAND_LOGO}
+                                    alt={`${BRAND_NAME} Logo`}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <span className="text-2xl md:text-3xl font-serif tracking-[0.3em] font-light">
-                                ALOMA
+                                {BRAND_NAME.toUpperCase()}
                             </span>
                         </Link>
                         <p className="text-primary-foreground/60 text-base leading-relaxed font-light max-w-xs">
-                            Elevating the essence of natural beauty through botanical wisdom and artisanal craftsmanship. Pure. Ethical. Timeless.
+                            {BRAND_DESCRIPTION}
                         </p>
                         <div className="flex items-center gap-6 pt-2">
                             {[Instagram, Twitter, Facebook].map((Icon, i) => (
@@ -104,7 +105,7 @@ export const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="pt-12 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div className="text-primary-foreground/40 text-xs font-light tracking-widest uppercase">
-                        © {currentYear} ALOMA. All rights reserved.
+                        © {currentYear} {BRAND_NAME.toUpperCase()}. All rights reserved.
                     </div>
                     <div className="flex gap-10">
                         {["Privacy Policy", "Terms of Service", "Shipping"].map((item) => (

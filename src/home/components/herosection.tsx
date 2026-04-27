@@ -9,21 +9,21 @@ import Link from "next/link";
 const slides = [
   {
     image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=2070&auto=format&fit=crop",
-    title: "Radiant Skin",
-    subtitle: "Glow naturally with premium care",
-    category: "Skin Care",
+    title: "100% Natural Skincare",
+    subtitle: "Chemical-free rituals for a healthy, glowing skin naturally.",
+    category: "Organic Purity",
   },
   {
     image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=2070&auto=format&fit=crop",
-    title: "Hydration First",
-    subtitle: "Deep moisture for healthy skin",
-    category: "Moisturizers",
+    title: "Acne Removal Rituals",
+    subtitle: "Effective pimple treatment for clear, oily-free skin.",
+    category: "Specialized Care",
   },
   {
     image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=2070&auto=format&fit=crop",
-    title: "Pure Ingredients",
-    subtitle: "Nature meets science",
-    category: "Organic",
+    title: "Botanical Wisdom",
+    subtitle: "Mastering the art of step-by-step skincare routines.",
+    category: "Expert Rituals",
   },
   {
     image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=2070&auto=format&fit=crop",
@@ -76,14 +76,14 @@ const HeroSlider = () => {
 
   return (
     <section
-      className=" mt-23 relative w-full lg:h-156 sm:h-130 overflow-hidden bg-background"
+      className="mt-20 relative mx-auto w-[98%] overflow-hidden rounded-b-[2.5rem] rounded-t-none border border-white/10 bg-background shadow-[0_20px_80px_rgba(0,0,0,0.18)] h-[29rem] sm:h-[31rem] lg:h-[39rem]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={index}
-          className="absolute inset-0"
+          className="absolute inset-0 overflow-hidden rounded-[inherit]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -94,20 +94,22 @@ const HeroSlider = () => {
             initial={{ scale: 1.15 }}
             animate={{ scale: 1 }}
             transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-            className="absolute inset-0"
+            className="absolute inset-0 overflow-hidden rounded-[inherit]"
           >
-            <Image
-              src={slides[index].image}
-              alt={slides[index].title}
-              fill
-              priority
-              className="object-cover"
-            />
+             <Image
+            src={slides[index].image}
+            alt={slides[index].title}
+            fill
+            priority
+            quality={100}
+            className="object-cover object-center scale-[1.02]"
+/>
           </motion.div>
 
           {/* Luxury Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/25 to-foreground/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-transparent to-transparent" />
+      <div className="absolute inset-0 rounded-[inherit] border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_-60px_120px_rgba(0,0,0,0.12)]" />
+
+<div className="absolute top-0 left-0 h-40 w-full bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
 
           {/* Content Wrapper */}
           <div className="absolute inset-0 flex items-center">
@@ -120,8 +122,8 @@ const HeroSlider = () => {
                   transition={{ delay: 0.5, duration: 0.8 }}
                   className="inline-flex items-center gap-2 mb-6"
                 >
-                  <span className="w-8 h-[1px] bg-primary/60" />
-                  <span className="text-white/80 uppercase tracking-[0.3em] text-xs font-semibold">
+                  <span className="w-8 h-[1px] bg-primary/80" />
+                  <span className="text-[#F5E9DD]/90 uppercase tracking-[0.3em] text-[10px] sm:text-xs font-semibold">
                     {slides[index].category}
                   </span>
                 </motion.div>
@@ -131,7 +133,7 @@ const HeroSlider = () => {
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.8 }}
-                  className="text-white text-5xl md:text-8xl font-serif font-light leading-[1.1] tracking-tight mb-8"
+                  className="text-[#F5E9DD] text-4xl sm:text-6xl md:text-8xl font-serif font-light leading-[1.1] tracking-tight mb-8"
                 >
                   {slides[index].title.split(" ").map((word, i) => (
                     <span key={i} className="block overflow-hidden">
@@ -152,7 +154,7 @@ const HeroSlider = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2, duration: 0.8 }}
-                  className="text-lg md:text-xl text-white/70 max-w-lg mb-12 font-light leading-relaxed"
+                  className="text-base md:text-xl text-[#F5E9DD]/75 max-w-lg mb-12 font-light leading-relaxed"
                 >
                   {slides[index].subtitle}
                 </motion.p>
@@ -164,13 +166,13 @@ const HeroSlider = () => {
                   transition={{ delay: 1.4, duration: 0.8 }}
                   className="flex flex-wrap gap-6"
                 >
-                  <button className="group relative flex items-center gap-2 overflow-hidden bg-primary px-8 py-4 text-primary-foreground transition-all hover:pr-12">
-                    <span className="font-semibold uppercase tracking-widest text-xs">Shop Collection</span>
+                  <button className="group relative flex items-center gap-2 overflow-hidden bg-[#a05a3a] px-6 py-3 md:px-8 md:py-4 text-white transition-all hover:pr-12 rounded-full shadow-lg">
+                    <span className="font-semibold uppercase tracking-widest text-[10px] md:text-xs">Shop Collection</span>
                     <ArrowRight className="absolute right-4 translate-x-12 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
-                    <div className="absolute inset-0 -translate-x-full bg-foreground/10 transition-transform group-hover:translate-x-0" />
+                    <div className="absolute inset-0 -translate-x-full bg-white/10 transition-transform group-hover:translate-x-0" />
                   </button>
-                  <Link href="/about" className="group flex items-center gap-2 px-8 py-4 border border-primary-foreground/35 text-primary-foreground backdrop-blur-sm transition-all hover:bg-primary-foreground hover:text-foreground">
-                    <span className="font-semibold uppercase tracking-widest text-xs">Discover Story</span>
+                  <Link href="/about" className="group flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 border border-[#F5E9DD]/30 text-[#F5E9DD] backdrop-blur-sm transition-all hover:bg-[#F5E9DD] hover:text-[#3f3128] rounded-full">
+                    <span className="font-semibold uppercase tracking-widest text-[10px] md:text-xs">Discover Story</span>
                   </Link>
                 </motion.div>
               </div>
@@ -192,13 +194,13 @@ const HeroSlider = () => {
         <div className="flex gap-4 order-1 md:order-2">
           <button
             onClick={prevSlide}
-            className="group relative h-14 w-14 flex items-center justify-center border border-primary-foreground/20 text-primary-foreground backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
+            className="group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/15"
           >
             <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
           </button>
           <button
             onClick={nextSlide}
-            className="group relative h-14 w-14 flex items-center justify-center border border-primary-foreground/20 text-primary-foreground backdrop-blur-md transition-all hover:bg-primary hover:text-primary-foreground"
+            className="group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/15"
           >
             <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </button>

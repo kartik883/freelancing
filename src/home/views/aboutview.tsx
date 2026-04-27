@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Leaf, ShieldCheck, Zap, Heart, ArrowRight, Star, Quote, Award, Sparkles } from "lucide-react";
+import { BRAND_NAME } from "@/brandhelp";
 
 const AboutView = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -78,7 +79,7 @@ const AboutView = () => {
                         transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                         className="text-white text-7xl md:text-[10rem] font-serif font-extralight leading-none tracking-tighter mb-10"
                     >
-                        Organic <br /> <span className="italic font-light">Elegance</span>
+                        Natural <br /> <span className="italic font-light">Skin Rituals</span>
                     </motion.h1>
 
                     <motion.p
@@ -119,14 +120,14 @@ const AboutView = () => {
                                 <span className="text-primary text-xs font-bold uppercase tracking-widest">The Seed</span>
                             </div>
                             <h2 className="text-5xl md:text-7xl font-serif font-light leading-[1.1]">
-                                Inspired by the <br /> <span className="italic text-primary">Untamed Earth</span>
+                                Chemical-Free <br /> <span className="italic text-primary">Acne Removal</span>
                             </h2>
                             <div className="space-y-6 text-foreground/60 text-lg md:text-xl font-light leading-relaxed">
                                 <p>
-                                    Every Alome formula begins in the wild. We source our botanicals from ethical harvesters who respect the seasonal cycles of the planet.
+                                    Every {BRAND_NAME} formula is a promise of purity. We specialize in natural acne treatments that target pimples at their root without harsh chemicals.
                                 </p>
                                 <p>
-                                    By preserving the full spectrum of nature’s potency, we deliver skincare that doesn't just treat the surface, but deeply nourishes the soul.
+                                    Our step-by-step skincare routines are designed for oily and dull skin, ensuring you achieve a healthy, glowing skin naturally.
                                 </p>
                             </div>
                             <motion.button
@@ -191,7 +192,7 @@ const AboutView = () => {
                         className="text-center mb-32"
                     >
                         <div className="inline-block py-2 px-6 rounded-full border border-primary/10 mb-6 font-bold tracking-[0.3em] text-[10px] uppercase text-primary">Uncompromising</div>
-                        <h2 className="text-6xl md:text-8xl font-serif font-extralight tracking-tighter">The Alome <span className="italic font-light text-primary">Standards</span></h2>
+                        <h2 className="text-6xl md:text-8xl font-serif font-extralight tracking-tighter">The {BRAND_NAME} <span className="italic font-light text-primary">Standards</span></h2>
                     </motion.div>
 
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -250,7 +251,7 @@ const AboutView = () => {
                                     {[...Array(5)].map((_, i) => <Star key={i} size={16} className="fill-primary text-primary" />)}
                                 </div>
                                 <p className="text-2xl md:text-3xl font-serif italic font-light leading-relaxed text-foreground/80">
-                                    "Finding Alome was a turning point for my skin. The results are visible, but the ritual itself has become my favorite part of the day. Pure luxury in a bottle."
+                                    "Finding {BRAND_NAME} was a turning point for my skin. The results are visible, but the ritual itself has become my favorite part of the day. Pure luxury in a bottle."
                                 </p>
                                 <div className="flex items-center gap-4 pt-4">
                                     <div className="w-12 h-12 rounded-full overflow-hidden">
