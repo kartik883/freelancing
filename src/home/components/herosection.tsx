@@ -76,7 +76,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="mt-20 relative mx-auto w-[98%] overflow-hidden rounded-b-[2.5rem] rounded-t-none border border-white/10 bg-background shadow-[0_20px_80px_rgba(0,0,0,0.18)] h-[29rem] sm:h-[31rem] lg:h-[39rem]"
+      className="mt-21 relative mx-auto w-[98%] overflow-hidden rounded-b-[2.5rem] rounded-t-none border border-white/10 bg-background shadow-[0_20px_80px_rgba(0,0,0,0.18)] h-[29rem] sm:h-[31rem] lg:h-[37rem]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -182,30 +182,37 @@ const HeroSlider = () => {
       </AnimatePresence>
 
       {/* Luxury Navigation Controls */}
-      <div className="absolute bottom-12 right-6 md:right-12 flex items-center gap-8">
-        {/* Slide Counter */}
-        {/* <div className="flex items-end gap-2 font-serif text-white order-2 md:order-1">
-          <span className="text-3xl font-light">{(index + 1).toString().padStart(2, '0')}</span>
-          <span className="text-white/40 mb-1">/</span>
-          <span className="text-white/40 mb-1 text-sm">{slides.length.toString().padStart(2, '0')}</span>
-        </div> */}
+      <div className="absolute bottom-4 right-2 sm:bottom-6 sm:right-4 md:bottom-12 md:right-12 flex items-center justify-end gap-2 sm:gap-4">
 
-        {/* Arrow Buttons */}
-        <div className="flex gap-4 order-1 md:order-2">
-          <button
-            onClick={prevSlide}
-            className="group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/15"
-          >
-            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/15"
-          >
-            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
-        </div>
-      </div>
+  {/* Arrow Buttons */}
+  <div className="flex gap-2 sm:gap-4">
+    
+    <button
+      onClick={prevSlide}
+      className="group flex items-center justify-center 
+      h-9 w-9 sm:h-10 sm:w-10 md:h-12 md:w-12
+      rounded-xl sm:rounded-2xl
+      border border-white/10 bg-black/20 text-white 
+      backdrop-blur-sm transition-all duration-300 
+      hover:scale-105 hover:bg-white/15"
+    >
+      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
+    </button>
+
+    <button
+      onClick={nextSlide}
+      className="group flex items-center justify-center 
+      h-9 w-9 sm:h-10 sm:w-10 md:h-12 md:w-12
+      rounded-xl sm:rounded-2xl
+      border border-white/10 bg-black/20 text-white 
+      backdrop-blur-sm transition-all duration-300 
+      hover:scale-105 hover:bg-white/15"
+    >
+      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
+    </button>
+
+  </div>
+</div>
 
       {/* Progress Bars Indicator */}
       <div className="absolute bottom-0 left-0 w-full flex">

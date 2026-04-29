@@ -106,7 +106,7 @@ useEffect(() => {
   className={`fixed top-1 left-1/2 -translate-x-1/2 z-50 w-[94%] sm:w-[92%] lg:w-[calc(100%-3rem)] max-w-[1900px] rounded-[2rem] md:rounded-[2.75rem] border transition-all duration-700 ${
     isScrolled
       ? "py-2 md:py-2.5 bg-[rgba(48,30,20,0.74)] border-white/10 backdrop-blur-3xl shadow-[0_20px_60px_rgba(18,10,0,0.38)]"
-      : "py-3 md:py-4 bg-[linear-gradient(180deg,rgba(82,58,42,0.88),rgba(56,38,28,0.82))] border-[rgba(255,245,235,0.12)] backdrop-blur-[30px] shadow-[0_24px_80px_rgba(48,28,18,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]"
+      : "py-2.5 md:py-3 bg-[linear-gradient(180deg,rgba(82,58,42,0.88),rgba(56,38,28,0.82))] border-[rgba(255,245,235,0.12)] backdrop-blur-[30px] shadow-[0_24px_80px_rgba(48,28,18,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]"
   }`}
 >
   {/* Decorative Premium Layers - Wrapped to allow menu overflow */}
@@ -117,7 +117,7 @@ useEffect(() => {
     <div className="absolute right-0 bottom-0 h-32 w-32 rounded-full bg-[rgba(176,132,96,0.14)] blur-3xl" />
   </div>
 
-  <div className="container mx-auto px-4 md:px-6 xl:px-8">
+  <div className="container mx-auto px-4 md:px-6 xl:px-7">
     <div className="flex items-center justify-between relative">
       {/* Left Side */}
       <div className="flex items-center gap-4">
@@ -134,8 +134,9 @@ useEffect(() => {
           href="/"
           className="flex items-center gap-3 md:gap-4 group outline-none"
         >
-          <div
-            className={`relative w-10 h-10 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 overflow-hidden rounded-[1.35rem] border transition-all duration-500 ${
+                  <div
+            className={`group relative w-10 h-10 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-10 lg:h-10 
+            overflow-hidden rounded-[1.35rem] border transition-all duration-500 ${
               isScrolled
                 ? "border-white/10 bg-white/[0.05] shadow-[0_10px_28px_rgba(0,0,0,0.2)]"
                 : "border-white/10 bg-[rgba(255,245,235,0.05)] shadow-[0_14px_34px_rgba(32,18,10,0.28)]"
@@ -144,19 +145,19 @@ useEffect(() => {
             <img
               src={BRAND_LOGO}
               alt={`${BRAND_NAME} Logo`}
-              className="w-full h-full object-cover bg-white"
+              className="w-full h-full object-cover bg-white transition-transform ease-out group-hover:scale-110"
             />
-          </div>
+                    </div>
 
-          <span
-            className={`text-sm sm:text-base md:text-lg lg:text-2xl font-serif tracking-[0.1em] sm:tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500  ${
-              isScrolled
-                ? "text-white/90"
-                : "text-[rgba(255,245,235,0.95)] drop-shadow-[0_2px_16px_rgba(255,240,225,0.18)]"
-            }`}
-          >
-            {BRAND_NAME}
-          </span>
+            <span
+              className={`text-sm sm:text-base md:text-lg lg:text-2xl font-serif tracking-[0.1em] sm:tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500 ${
+                isScrolled
+                  ? "text-white/90"
+                  : "text-[rgba(255,245,235,0.95)] drop-shadow-[0_2px_16px_rgba(255,240,225,0.18)]"
+              } group-hover:scale-105`}
+            >
+              {BRAND_NAME}
+            </span>
         </Link>
       </div>
 
