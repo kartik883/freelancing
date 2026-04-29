@@ -41,6 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { BRAND_NAME } from "@/brandhelp";
 
 const COUNTRIES = [
   { code: "+91", flag: "🇮🇳", label: "IN" },
@@ -175,7 +176,7 @@ export function OnboardingForm() {
     if (!status) return;
     setValue("name", status.name || "");
     setValue("age", status.age || "");
-    const isPlaceholder = status.email?.includes("@phone.alome.local");
+    const isPlaceholder = status.email?.includes(`@phone.${BRAND_NAME.toLowerCase()}.local`);
     setValue("email", isPlaceholder ? "" : (status.email || ""));
     setVerificationEmail(isPlaceholder ? "" : (status.email || ""));
   }, [status, setValue]);
@@ -221,12 +222,12 @@ export function OnboardingForm() {
     );
   }
 
-  const isGoogleUser = !status?.email?.includes("@phone.alome.local");
+  const isGoogleUser = !status?.email?.includes(`@phone.${BRAND_NAME.toLowerCase()}.local`);
 
   return (
     <div className="mx-auto w-full max-w-2xl space-y-8 py-10">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-serif tracking-tight uppercase">Welcome to Alome</h1>
+        <h1 className="text-4xl font-serif tracking-tight uppercase">Welcome to {BRAND_NAME}</h1>
         <p className="text-muted-foreground font-light">Complete these rituals to begin your journey.</p>
       </div>
 

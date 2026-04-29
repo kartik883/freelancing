@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Sparkles, Heart, Shield, Zap } from "lucide-react";
+import { BRAND_NAME } from "@/brandhelp";
 
 interface BenefitSectionProps {
     images: string[];
@@ -69,7 +70,7 @@ const BenifitSection = ({ images, productName }: BenefitSectionProps) => {
                     {/* Right: Interactive Benefit List */}
                     <div className="space-y-12">
                         <div className="space-y-4">
-                            <span className="text-primary uppercase tracking-[0.4em] text-[10px] font-bold">Why Alome?</span>
+                            <span className="text-primary uppercase tracking-[0.4em] text-[10px] font-bold">Why {BRAND_NAME}?</span>
                             <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tight">Powerful Results.</h2>
                             <p className="text-muted-foreground font-light max-w-lg leading-relaxed">
                                 Experience the fusion of nature and science. Our formulas are crafted to deliver visible transformations.

@@ -1,9 +1,9 @@
 import CartView from "@/cart/views/cartview";
 
 const CartPage = () => {
-    return (
-        <CartView />
-    );
+  return (
+    <CartView />
+  );
 };
 
 export default CartPage;

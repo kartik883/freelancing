@@ -99,124 +99,124 @@ export default function AuthDialog() {
   const [step,        setStep]        = useState<Step>("phone");
   const [direction,   setDirection]   = useState(1);
   const [countryCode, setCountryCode] = useState("+91");
-  const [phone,       setPhone]       = useState("");
-  const [otp,         setOtp]         = useState("");
+  // const [phone,       setPhone]       = useState("");
+  // const [otp,         setOtp]         = useState("");
   const [loading,     setLoading]     = useState(false);
   const [resendIn,    setResendIn]    = useState(0);
 
-  const fullPhone = useMemo(
-    () => `${countryCode}${phone}`.replace(/\s+/g, ""),
-    [countryCode, phone]
-  );
+  // const fullPhone = useMemo(
+  //   () => `${countryCode}${phone}`.replace(/\s+/g, ""),
+  //   [countryCode, phone]
+  // );
 
   // Countdown timer
-  useEffect(() => {
-    if (resendIn <= 0) return;
-    const t = setTimeout(() => setResendIn((p) => p - 1), 1000);
-    return () => clearTimeout(t);
-  }, [resendIn]);
+  // useEffect(() => {
+  //   if (resendIn <= 0) return;
+  //   const t = setTimeout(() => setResendIn((p) => p - 1), 1000);
+  //   return () => clearTimeout(t);
+  // }, [resendIn]);
 
   // Reset state when dialog closes
-  useEffect(() => {
-    if (!isOpen) {
-      const t = setTimeout(() => {
-        setStep("phone");
-        setPhone("");
-        setOtp("");
-        setResendIn(0);
-        setDirection(1);
-        setLoading(false);
-      }, 350);
-      return () => clearTimeout(t);
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     const t = setTimeout(() => {
+  //       setStep("phone");
+  //       setPhone("");
+  //       setOtp("");
+  //       setResendIn(0);
+  //       setDirection(1);
+  //       setLoading(false);
+  //     }, 350);
+  //     return () => clearTimeout(t);
+  //   }
+  // }, [isOpen]);
 
   // ── Navigation helpers ────────────────────────────────────────────────────
 
-  const goToOtp = () => {
-    setDirection(1);
-    setStep("otp");
-  };
+  // const goToOtp = () => {
+  //   setDirection(1);
+  //   setStep("otp");
+  // };
 
-  const goBack = () => {
-    setOtp("");
-    setDirection(-1);
-    setStep("phone");
-  };
+  // const goBack = () => {
+  //   setOtp("");
+  //   setDirection(-1);
+  //   setStep("phone");
+  // };
 
   // ── OTP Send ─────────────────────────────────────────────────────────────
 
-  const sendOtp = async () => {
-    const phoneRegex = /^\+[1-9]\d{7,14}$/;
-    if (!phoneRegex.test(fullPhone)) {
-      toast.error("Enter a valid phone number", {
-        description: "Include your country code, e.g. +91 98765 43210",
-      });
-      return;
-    }
+  // const sendOtp = async () => {
+  //   const phoneRegex = /^\+[1-9]\d{7,14}$/;
+  //   if (!phoneRegex.test(fullPhone)) {
+  //     toast.error("Enter a valid phone number", {
+  //       description: "Include your country code, e.g. +91 98765 43210",
+  //     });
+  //     return;
+  //   }
 
-    setLoading(true);
-    try {
-      // Better Auth phoneNumber plugin — calls /api/auth/phone-number/send-verification-code
-      const { error } = await authClient.phoneNumber.sendOtp({
-        phoneNumber: fullPhone,
-      });
+  //   setLoading(true);
+  //   try {
+  //     // Better Auth phoneNumber plugin — calls /api/auth/phone-number/send-verification-code
+  //     const { error } = await authClient.phoneNumber.sendOtp({
+  //       phoneNumber: fullPhone,
+  //     });
 
-      if (error) {
-        throw new Error(error.message ?? "Failed to send OTP");
-      }
+  //     if (error) {
+  //       throw new Error(error.message ?? "Failed to send OTP");
+  //     }
 
-      goToOtp();
-      setResendIn(30);
-      toast.success("Code sent!", {
-        description: `A 6-digit OTP was sent to ${fullPhone}`,
-      });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to send OTP");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     goToOtp();
+  //     setResendIn(30);
+  //     toast.success("Code sent!", {
+  //       description: `A 6-digit OTP was sent to ${fullPhone}`,
+  //     });
+  //   } catch (err) {
+  //     toast.error(err instanceof Error ? err.message : "Failed to send OTP");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // ── OTP Verify ───────────────────────────────────────────────────────────
 
-  const verifyOtp = async () => {
-    if (loading) return;
-    if (!/^\d{6}$/.test(otp)) {
-      toast.error("Enter the 6-digit code");
-      return;
-    }
+  // const verifyOtp = async () => {
+  //   if (loading) return;
+  //   if (!/^\d{6}$/.test(otp)) {
+  //     toast.error("Enter the 6-digit code");
+  //     return;
+  //   }
 
-    setLoading(true);
+  //   setLoading(true);
     
-    try {
-      // Better Auth phoneNumber plugin — calls /api/auth/phone-number/verify
-      const { error } = await authClient.phoneNumber.verify({
-        phoneNumber: fullPhone,
-        code: otp.trim(),
-      });
+  //   try {
+  //     // Better Auth phoneNumber plugin — calls /api/auth/phone-number/verify
+  //     const { error } = await authClient.phoneNumber.verify({
+  //       phoneNumber: fullPhone,
+  //       code: otp.trim(),
+  //     });
 
-      if (error) {
-        throw new Error(error.message ?? "Verification failed");
-      }
+  //     if (error) {
+  //       throw new Error(error.message ?? "Verification failed");
+  //     }
 
-      toast.success("Welcome to Alome ✦", {
-        description: "You're signed in. Enjoy your experience.",
-      });
-      setIsOpen(false);
+  //     toast.success("Welcome to purastone ✦", {
+  //       description: "You're signed in. Enjoy your experience.",
+  //     });
+  //     setIsOpen(false);
 
-      // Small delay for toast to show before redirect
-      setTimeout(() => {
-        window.location.href = "/onboarding";
-      }, 600);
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Verification failed", {
-        description: "Check the code and try again, or request a new one.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Small delay for toast to show before redirect
+  //     setTimeout(() => {
+  //       window.location.href = "/onboarding";
+  //     }, 600);
+  //   } catch (err) {
+  //     toast.error(err instanceof Error ? err.message : "Verification failed", {
+  //       description: "Check the code and try again, or request a new one.",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // ── Google OAuth ──────────────────────────────────────────────────────────
 
@@ -225,7 +225,7 @@ export default function AuthDialog() {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/onboarding",
+        callbackURL: "/",
       });
       // Loading stays true — browser navigates away
     } catch {
@@ -256,14 +256,44 @@ export default function AuthDialog() {
         <div className="px-8 py-9 overflow-hidden">
 
           {/* ── Brand header */}
-          <div className="mb-8 text-center select-none">
+          <div className=" flex flex-col space-y-10 mb-8 text-center select-none">
             {/* Logo wordmark */}
             <p className="font-serif text-[2rem] leading-none tracking-[0.08em] text-foreground">
-              ALOME
+              Purastone
             </p>
 
+             {/* Google */}
+                <Button
+                  id="google-signin-btn"
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 gap-2.5 text-sm font-medium"
+                  onClick={handleGoogle}
+                  disabled={loading}
+                >
+                  <GoogleIcon />
+                  Continue with Google
+                </Button>
+
+                {/* Terms */}
+                <p className="text-center text-[11px] leading-relaxed text-muted-foreground/70 pt-1">
+                  By continuing you agree to our{" "}
+                  <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
+                    Terms
+                  </span>{" "}
+                  &amp;{" "}
+                  <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
+                    Privacy Policy
+                  </span>
+                </p>
+
+
+
+
+
+
             {/* Dynamic subtitle */}
-            <div className="mt-2 h-5 overflow-hidden">
+            {/* <div className="mt-2 h-5 overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={step}
@@ -278,14 +308,14 @@ export default function AuthDialog() {
                     : `Code sent to ${fullPhone}`}
                 </motion.p>
               </AnimatePresence>
-            </div>
+            </div> */}
           </div>
 
           {/* ── Step content (animated slide) */}
-          <AnimatePresence mode="wait" custom={direction}>
+          {/* <AnimatePresence mode="wait" custom={direction}> */}
 
             {/* ════════════════ PHONE STEP ════════════════ */}
-            {step === "phone" && (
+            {/* {step === "phone" && (
               <motion.div
                 key="phone-step"
                 custom={direction}
@@ -294,9 +324,9 @@ export default function AuthDialog() {
                 animate="center"
                 exit="exit"
                 className="space-y-4"
-              >
+              > */}
                 {/* Phone field */}
-                <div className="space-y-1.5">
+                {/* <div className="space-y-1.5">
                   <label
                     htmlFor="phone-input"
                     className="block text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground"
@@ -321,9 +351,9 @@ export default function AuthDialog() {
                           </SelectItem>
                         ))}
                       </SelectContent>
-                    </Select>
+                    </Select> */}
 
-                    <Input
+                    {/* <Input
                       id="phone-input"
                       value={phone}
                       onChange={(e) =>
@@ -335,12 +365,12 @@ export default function AuthDialog() {
                       autoComplete="tel-national"
                       className="flex-1 h-11 tracking-wider text-[15px]"
                       disabled={loading}
-                    />
-                  </div>
-                </div>
+                    /> */}
+                  {/* </div>
+                </div> */}
 
                 {/* Continue CTA */}
-                <Button
+                {/* <Button
                   id="send-otp-btn"
                   className="w-full h-11 text-sm font-semibold tracking-wide"
                   onClick={sendOtp}
@@ -354,46 +384,23 @@ export default function AuthDialog() {
                       Continue with Phone
                     </>
                   )}
-                </Button>
+                </Button> */}
 
                 {/* Divider */}
-                <div className="relative flex items-center gap-3 py-1">
+                {/* <div className="relative flex items-center gap-3 py-1">
                   <div className="flex-1 h-px bg-border" />
                   <span className="text-[11px] font-medium text-muted-foreground shrink-0">
                     or
                   </span>
                   <div className="flex-1 h-px bg-border" />
-                </div>
+                </div> */}
 
-                {/* Google */}
-                <Button
-                  id="google-signin-btn"
-                  type="button"
-                  variant="outline"
-                  className="w-full h-11 gap-2.5 text-sm font-medium"
-                  onClick={handleGoogle}
-                  disabled={loading}
-                >
-                  <GoogleIcon />
-                  Continue with Google
-                </Button>
-
-                {/* Terms */}
-                <p className="text-center text-[11px] leading-relaxed text-muted-foreground/70 pt-1">
-                  By continuing you agree to our{" "}
-                  <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
-                    Terms
-                  </span>{" "}
-                  &amp;{" "}
-                  <span className="underline underline-offset-2 cursor-pointer hover:text-foreground transition-colors">
-                    Privacy Policy
-                  </span>
-                </p>
-              </motion.div>
-            )}
+                
+              {/* </motion.div>
+            )} */}
 
             {/* ════════════════ OTP STEP ════════════════ */}
-            {step === "otp" && (
+            {/* {step === "otp" && (
               <motion.div
                 key="otp-step"
                 custom={direction}
@@ -402,19 +409,19 @@ export default function AuthDialog() {
                 animate="center"
                 exit="exit"
                 className="space-y-6"
-              >
+              > */}
                 {/* OTP label */}
-                <div className="space-y-1.5">
+                {/* <div className="space-y-1.5">
                   <label className="block text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                     Verification Code
                   </label>
                   <p className="text-[13px] text-muted-foreground">
                     Enter the 6-digit code sent via SMS
                   </p>
-                </div>
+                </div> */}
 
                 {/* OTP Slots */}
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                   <InputOTP
                     id="otp-input"
                     maxLength={6}
@@ -434,10 +441,10 @@ export default function AuthDialog() {
                       ))}
                     </InputOTPGroup>
                   </InputOTP>
-                </div>
+                </div> */}
 
                 {/* Verify CTA */}
-                <Button
+                {/* <Button
                   id="verify-otp-btn"
                   className="w-full h-11 text-sm font-semibold tracking-wide"
                   onClick={verifyOtp}
@@ -451,10 +458,10 @@ export default function AuthDialog() {
                       Verify &amp; Sign In
                     </>
                   )}
-                </Button>
+                </Button> */}
 
                 {/* Bottom actions row */}
-                <div className="flex items-center justify-between text-[13px]">
+                {/* <div className="flex items-center justify-between text-[13px]">
                   <button
                     id="back-to-phone-btn"
                     type="button"
@@ -475,12 +482,12 @@ export default function AuthDialog() {
                   >
                     {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend code"}
                   </button>
-                </div>
-              </motion.div>
+                </div> */}
+              {/* </motion.div>
             )}
 
-          </AnimatePresence>
-        </div>
+          </AnimatePresence> */}
+        </div> 
 
         {/* ── Bottom accent bar */}
         <div

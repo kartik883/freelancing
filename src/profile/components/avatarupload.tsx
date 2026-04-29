@@ -20,10 +20,12 @@ export const AvatarUpload = ({ image, name, onUpdate }: Props) => {
     const trpc = useTRPC();
     const qc = useQueryClient();
 
+    const { refetch: refetchSession } = authClient.useSession();
     const updateMutation = useMutation(
         trpc.profile.updateProfile.mutationOptions({
-            onSuccess: () => {
+            onSuccess: async () => {
                 qc.invalidateQueries({ queryKey: [["profile", "getMe"]] });
+                await refetchSession();
                 onUpdate();
                 toast.success("Profile photo updated");
             },
